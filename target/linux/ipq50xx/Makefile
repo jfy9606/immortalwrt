@@ -25,13 +25,9 @@ KERNELNAME:=Image dtbs
 
 DEFAULT_PACKAGES += \
 	kmod-gpio-button-hotplug \
-<<<<<<< HEAD
 	uboot-envtools \
 	kmod-qca-nss-dp swconfig \
 	kmod-qca-nss-drv qca-nss-fw-ipq50xx-retail \
 	kmod-ath11k wpad-basic-wolfssl
-=======
-	uboot-envtools
->>>>>>> d7a41c7ee8 (ipq50xx: Add Qualcomm Atheros IPQ50xx target)
 
 $(eval $(call BuildTarget))
