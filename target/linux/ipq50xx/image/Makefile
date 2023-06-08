@@ -33,7 +33,7 @@ define Device/UbiFit
   IMAGE/nand-sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 
-<<<<<<< HEAD
+
 define Device/cmcc_rax3000q
   $(call Device/FitImage)
   $(call Device/UbiFit)
@@ -93,6 +93,4 @@ define Device/xiaomi_cr881x
 endef
 TARGET_DEVICES += xiaomi_cr881x
 
-=======
->>>>>>> d7a41c7ee8 (ipq50xx: Add Qualcomm Atheros IPQ50xx target)
 $(eval $(call BuildImage))
