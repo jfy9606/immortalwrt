@@ -34,7 +34,6 @@ define Device/UbiFit
   IMAGE/nand-sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 
-
 define Device/cmcc_rax3000q
   $(call Device/FitImage)
   $(call Device/UbiFit)
