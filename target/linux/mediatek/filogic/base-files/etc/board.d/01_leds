@@ -6,6 +6,7 @@ board=$(board_name)
 board_config_update
 
 case $board in
+abt,asr3000|\
 abt,asr3000-ubootmod)
 	ucidef_set_led_netdev "wan" "WAN" "green:wan" "eth1"
 	ucidef_set_led_netdev "wlan2g" "WLAN2G" "green:wlan2g" "phy0-ap0"
@@ -21,10 +22,15 @@ confiabits,mt7981)
 	ucidef_set_led_netdev "lan3" "lan3" "blue:lan-3" "lan3" "link tx rx"
 	ucidef_set_led_netdev "wan" "wan" "blue:wan" "wan" "link tx rx"
 	;;
+cudy,re3000-v1)
+	ucidef_set_led_netdev "lan" "lan" "green:lan" "eth0" "link tx rx"
+	;;
 cudy,wr3000-v1)
 	ucidef_set_led_netdev "wan" "wan" "blue:wan" "wan"
 	;;
-imou,lc-hx3001-ubootmod)
+imou,lc-hx3001|\
+imou,lc-hx3001-ubootmod|\
+nokia,ea0326gmp)
 	ucidef_set_led_netdev "wan" "WAN" "green:wan" "eth1" "link"
 	ucidef_set_led_netdev "lan" "LAN" "green:lan" "br-lan" "link"
 	ucidef_set_led_netdev "wlan" "WLAN" "green:wlan" "phy1-ap0" "link"
@@ -62,6 +68,9 @@ xiaomi,redmi-router-ax6000|\
 xiaomi,redmi-router-ax6000-stock|\
 xiaomi,redmi-router-ax6000-ubootmod)
 	ucidef_set_led_netdev "wan" "wan" "rgb:network" "wan" "link"
+	;;
+zbtlink,zbt-z8103ax)
+	ucidef_set_led_netdev "wan" "wan" "green:wan" "eth1" "link tx rx"
 	;;
 zyxel_ex5601-t0-stock|\
 zyxel,ex5601-t0-ubootmod)

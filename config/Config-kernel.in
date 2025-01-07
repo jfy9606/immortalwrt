@@ -157,16 +157,6 @@ config KERNEL_KASAN
 	  Currently CONFIG_KASAN doesn't work with CONFIG_DEBUG_SLAB
 	  (the resulting kernel does not boot).
 
-config KERNEL_KASAN_EXTRA
-	bool "KAsan: extra checks"
-	depends on KERNEL_KASAN && KERNEL_DEBUG_KERNEL
-	help
-	  This enables further checks in the kernel address sanitizer, for now
-	  it only includes the address-use-after-scope check that can lead
-	  to excessive kernel stack usage, frame size warnings and longer
-	  compile time.
-	  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81715 has more
-
 config KERNEL_KASAN_VMALLOC
 	bool "Back mappings in vmalloc space with real shadow memory"
 	depends on KERNEL_KASAN
@@ -362,9 +352,8 @@ config KERNEL_DEBUG_INFO
 	  This will compile your kernel and modules with debug information.
 
 config KERNEL_DEBUG_INFO_BTF
-
 	bool "Enable additional BTF type information"
-	default y if TARGET_armsr || TARGET_bcm27xx || TARGET_ipq806x_chromium || TARGET_ipq807x || TARGET_mediatek_filogic || TARGET_mvebu_cortexa53 || TARGET_mvebu_cortexa72 || TARGET_rockchip || TARGET_sunxi || TARGET_x86_64
+	default y if (TARGET_armsr || TARGET_bcm27xx || TARGET_ipq806x_chromium || TARGET_ipq807x || TARGET_mediatek_filogic || TARGET_mvebu_cortexa53 || TARGET_mvebu_cortexa72 || TARGET_rockchip || TARGET_sunxi || TARGET_x86_64) && BUILDBOT
 	depends on !HOST_OS_MACOS
 	depends on KERNEL_DEBUG_INFO && !KERNEL_DEBUG_INFO_REDUCED
 	select DWARVES
@@ -375,9 +364,13 @@ config KERNEL_DEBUG_INFO_BTF
 
 	  Required to run BPF CO-RE applications.
 
+config KERNEL_DEBUG_INFO_BTF_MODULES
+	def_bool y
+	depends on KERNEL_DEBUG_INFO_BTF
+
 config KERNEL_MODULE_ALLOW_BTF_MISMATCH
 	bool "Allow loading modules with non-matching BTF type info"
-	depends on KERNEL_DEBUG_INFO_BTF
+	depends on KERNEL_DEBUG_INFO_BTF_MODULES
 	default y
 	help
 	  For modules whose split BTF does not match vmlinux, load without
@@ -388,7 +381,7 @@ config KERNEL_MODULE_ALLOW_BTF_MISMATCH
 
 config KERNEL_DEBUG_INFO_REDUCED
 	bool "Reduce debugging information"
-	default y if !(TARGET_armsr || TARGET_bcm27xx || TARGET_ipq806x_chromium || TARGET_ipq807x || TARGET_mediatek_filogic || TARGET_mvebu_cortexa53 || TARGET_mvebu_cortexa72 || TARGET_rockchip || TARGET_sunxi || TARGET_x86_64)
+	default y if !(TARGET_armsr || TARGET_bcm27xx || TARGET_ipq806x_chromium || TARGET_ipq807x || TARGET_mediatek_filogic || TARGET_mvebu_cortexa53 || TARGET_mvebu_cortexa72 || TARGET_rockchip || TARGET_sunxi || TARGET_x86_64) || !BUILDBOT
 	depends on KERNEL_DEBUG_INFO
 	help
 	  If you say Y here gcc is instructed to generate less debugging
@@ -482,6 +475,11 @@ config KERNEL_BPF_EVENTS
 	  This is required to use BPF maps of type BPF_MAP_TYPE_PERF_EVENT_ARRAY
 	  for sending data from BPF programs to user-space for post-processing
 	  or logging.
+
+config KERNEL_PROBE_EVENTS_BTF_ARGS
+	bool
+	depends on KERNEL_KPROBE_EVENTS && KERNEL_DEBUG_INFO_BTF
+	default n
 
 config KERNEL_BPF_KPROBE_OVERRIDE
 	bool
@@ -1359,3 +1357,17 @@ config KERNEL_UBIFS_FS_SECURITY
 
 config KERNEL_JFFS2_FS_SECURITY
 	bool "JFFS2 Security Labels"
+
+config KERNEL_WERROR
+	bool "Compile the kernel with warnings as errors"
+	help
+	  A kernel build should not cause any compiler warnings, and this
+	  enables the '-Werror' (for C) and '-Dwarnings' (for Rust) flags
+	  to enforce that rule by default. Certain warnings from other tools
+	  such as the linker may be upgraded to errors with this option as
+	  well.
+
+	  However, if you have a new (or very old) compiler or linker with odd
+	  and unusual warnings, or you have some architecture with problems,
+	  you may need to disable this config option in order to
+	  successfully build the kernel.
