@@ -39,7 +39,8 @@ tplink,eap660hd-v1)
 	;;
 compex,wpq873|\
 edgecore,eap102|\
-zyxel,nbg7815)
+zyxel,nbg7815|\
+aliyun,ap8220)
 	ubootenv_add_mtd "0:appsblenv" "0x0" "0x10000" "0x10000"
 	;;
 edimax,cax1800|\
