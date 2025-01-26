@@ -228,10 +228,10 @@
 +		bootargs-append = " ubi.mtd=user_property root=/dev/ubiblock1_0 coherent_pool=2M swiotlb=noforce";
  	};
  
- 	leds {
---- a/arch/arm64/boot/dts/qcom/ipq8174-mx4200.dtsi
-+++ b/arch/arm64/boot/dts/qcom/ipq8174-mx4200.dtsi
-@@ -30,7 +30,7 @@
+# 	leds {
+#--- a/arch/arm64/boot/dts/qcom/ipq8174-mx4200.dtsi
+#+++ b/arch/arm64/boot/dts/qcom/ipq8174-mx4200.dtsi
+#@@ -30,7 +30,7 @@
  
  	chosen {
  		stdout-path = "serial0:115200n8";
