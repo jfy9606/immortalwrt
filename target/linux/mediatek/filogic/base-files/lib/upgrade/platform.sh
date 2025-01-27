@@ -67,6 +67,8 @@ platform_do_upgrade() {
 
 	case "$board" in
 	abt,asr3000|\
+        mediatek,mt7981-rfb|\
+        mediatek,mt7988a-rfb|\
 	bananapi,bpi-r3|\
 	bananapi,bpi-r3-mini|\
 	bananapi,bpi-r4|\
