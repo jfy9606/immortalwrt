@@ -17,6 +17,17 @@
 	qcom,msm-id = <0x178 0x00>;
 	interrupt-parent = <0x01>;
 
+        memory {
+                device_type = "memory";
+                reg = <0x00 0x40000000 0x00 0x20000000>;
+        };
+
+        reserved-memory {
+                #address-cells = <0x02>;
+                #size-cells = <0x02>;
+                ranges;
+        };
+
 	firmware {
 
 		qfprom {
@@ -257,63 +268,6 @@
 				};
 			};
 		};
-                
-                &blsp1_spi1 {
-		compatible = "jedec,spi-nor";
-		#address-cells = <1>;
-		#size-cells = <1>;
-		reg = <0>;
-		spi-max-frequency = <50000000>;
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			partition@0 {
-				label = "0:SBL1";
-				reg = <0x00 0x50000>;
-			};
-
-			partition@50000 {
-				label = "0:MIBIB";
-				reg = <0x50000 0x10000>;
-			};
-
-			partition@60000 {
-				label = "0:QSEE";
-				reg = <0x60000 0x180000>;
-			};
-
-			partition@1e0000 {
-				label = "0:DEVCFG";
-				reg = <0x1e0000 0x10000>;
-			};
-
-			partition@1f0000 {
-				label = "0:APDP";
-				reg = <0x1f0000 0x10000>;
-			};
-
-			partition@200000 {
-				label = "0:RPM";
-				reg = <0x200000 0x40000>;
-			};
-
-			partition@240000 {
-				label = "0:CDT";
-				reg = <0x240000 0x10000>;
-			};
-
-			partition@250000 {
-				label = "0:APPSBLENV";
-				reg = <0x250000 0x10000>;
-			};
-
-			partition@260000 {
-				label = "0:APPSBL";
-				reg = <0x260000 0xa0000>;
-			};
 
 		interrupt-controller@b000000 {
 			compatible = "qcom,msm-qgic2";
@@ -3324,3 +3278,95 @@
 		bootargs-append = " root=/dev/ubiblock0_1 swiotlb=1 coherent_pool=2M";
 	};
 };
+
+&blsp1_spi1 {
+        pinctrl-0 = <&spi_0_pins>;
+        pinctrl-names = "default";
+        cs-select = <0>;
+        status = "okay";
+
+        flash@0 {
+                compatible = "jedec,spi-nor";
+                #address-cells = <1>;
+                #size-cells = <1>;
+                reg = <0>;
+                spi-max-frequency = <50000000>;
+
+                partitions {
+                        compatible = "fixed-partitions";
+                        #address-cells = <1>;
+                        #size-cells = <1>;
+
+                        partition@0 {
+                                label = "0:SBL1";
+                                reg = <0x00 0x50000>;
+                        };
+
+                        partition@50000 {
+                                label = "0:MIBIB";
+                                reg = <0x50000 0x10000>;
+                        };
+
+                        partition@60000 {
+                                label = "0:QSEE";
+                                reg = <0x60000 0x180000>;
+                        };
+
+                        partition@1e0000 {
+                                label = "0:DEVCFG";
+                                reg = <0x1e0000 0x10000>;
+                        };
+
+                        partition@1f0000 {
+                                label = "0:APDP";
+                                reg = <0x1f0000 0x10000>;
+                        };
+
+                        partition@200000 {
+                                label = "0:RPM";
+                                reg = <0x200000 0x40000>;
+                        };
+
+                        partition@240000 {
+                                label = "0:CDT";
+                                reg = <0x240000 0x10000>;
+                        };
+
+                        partition@250000 {
+                                label = "0:APPSBLENV";
+                                reg = <0x250000 0x10000>;
+                        };
+
+                        partition@260000 {
+                                label = "0:APPSBL";
+                                reg = <0x260000 0xa0000>;
+                        };
+
+                        partition@300000 {
+                                label = "0:ART";
+                                reg = <0x300000 0x40000>;
+                        };
+
+                        partition@340000 {
+                                label = "0:ETHPHYFW";
+                                reg = <0x340000 0x80000>;
+                        };
+
+                        partition@3c0000 {
+                                label = "product_info";
+                                reg = <0x3c0000 0x10000>;
+                        };
+
+                        partition@3d0000 {
+                                label = "mtdoops";
+                                reg = <0x3d0000 0x20000>;
+                        };
+
+                        partition@3f0000 {
+                                label = "priv_data1";
+                                reg = <0x3f0000 0x10000>;
+                        };
+                };
+        };
+};
+
