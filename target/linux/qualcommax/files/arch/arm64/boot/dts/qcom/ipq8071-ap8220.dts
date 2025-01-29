@@ -37,22 +37,6 @@
 			gpios = <&tlmm 0x42 GPIO_ACTIVE_LOW>;
 		};
 	};
-        
-        reserved-memory {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges;
-
-		wifi_fw_region: wifi_fw@4b0c0000 {
-			no-map;
-			reg = <0x4b0c0000 0x2000000>;
-		};
-
-		wifi_caldb_region: wifi_caldb@4ba00000 {
-			no-map;
-			reg = <0x4ba00000 0x480000>;
-		};
-	};
 
 	leds {
 		compatible = "gpio-leds";
@@ -359,7 +343,7 @@
 
 &q6v5_wcss {
 	compatible = "qcom,q6v5-wcss-pil";
-	memory-region = <&wifi_fw_region>;
+	memory-region = <0x4b0c0000 0x2000000>;
 	status = "okay";
 };
 
@@ -368,7 +352,7 @@
 	reg = <0xc000000 0x2000000>;
 	qcom,hw-mode-id = <0x01>;
 	qcom,tgt-mem-mode = <0x00>;
-	mem-region = <&wifi_fw_region>;
+	mem-region = <0x4b0c0000 0x2000000>;
 	qcom,rproc = <&q6v5_wcss>;
 	qcom,bdf-addr = <0x4b0c0000>;
 	qcom,caldb-addr = <0x4ba00000>;
