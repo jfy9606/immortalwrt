@@ -95,7 +95,6 @@ ipq807x_setup_macs()
 	local label_mac=""
 
 	case "$board" in
-<<<<<<< HEAD
 		linksys,mx4200v2|\
 		linksys,mx4300)
 			label_mac=$(mtd_get_mac_ascii devinfo hw_mac_addr)
