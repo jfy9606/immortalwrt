@@ -6,7 +6,7 @@ BOARDNAME:=Qualcomm Atheros 802.11ax WiSoC-s
 FEATURES:=squashfs ramdisk fpu nand rtc emmc
 KERNELNAME:=Image
 CPU_TYPE:=cortex-a53
-SUBTARGETS:=ipq807x ipq60xx
+SUBTARGETS:=ipq807x ipq60xx ipq50xx
 
 KERNEL_PATCHVER:=6.6
 
@@ -17,6 +17,7 @@ DEFAULT_PACKAGES += \
 	kmod-qca-nss-dp kmod-ath11k-ahb \
 	wpad-basic-mbedtls uboot-envtools \
 	e2fsprogs kmod-fs-ext4 losetup \
+	automount cpufreq \
 	kmod-qca-nss-drv kmod-qca-nss-ecm \
 	kmod-qca-nss-drv-bridge-mgr
 
