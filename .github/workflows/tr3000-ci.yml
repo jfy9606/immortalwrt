@@ -92,11 +92,19 @@ jobs:
 
       - name: Checkout OpenWrt
         uses: actions/checkout@v3
+        
+      - name: Clone source code
+        working-directory: /workdir
+        run: |
+          df -hT $PWD
+          git clone $REPO_URL -b $REPO_BRANCH openwrt
+          ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
       - name: cache
         uses: stupidloud/cachewrtbuild@main
         with:
           ccache: 'true'
+          prefix: ${{ github.workspace }}/openwrt
       
       - name: Update feeds
         run: |
