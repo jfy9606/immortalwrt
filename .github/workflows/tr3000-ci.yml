@@ -100,6 +100,9 @@ jobs:
         
       - name: Clone source code
         working-directory: /workdir
+        env:
+          REPO_URL: "https://github.com/jfy9606/immortalwrt/"
+          REPO_BRANCH: "main"
         run: |
           df -hT $PWD
           git clone $REPO_URL -b $REPO_BRANCH openwrt
