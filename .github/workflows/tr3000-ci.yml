@@ -78,6 +78,9 @@ jobs:
            sudo -E apt -y autoremove --purge
            sudo -E apt autoclean
            sudo -E timedatectl set-timezone "Asia/Shanghai"
+           sudo -E mkdir -p /workdir
+           sudo -E chown -R $USER:$GROUPS /workdir
+           sudo -E cd /workdir
 
       - name: Freeing up disk space
         uses: easimon/maximize-build-space@master
@@ -91,7 +94,9 @@ jobs:
           remove-docker-images: 'false'
 
       - name: Checkout OpenWrt
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
         
       - name: Clone source code
         working-directory: /workdir
@@ -108,7 +113,6 @@ jobs:
       
       - name: Update feeds
         run: |
-          sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
