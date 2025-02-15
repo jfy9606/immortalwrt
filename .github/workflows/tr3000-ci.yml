@@ -80,7 +80,7 @@ jobs:
            sudo -E timedatectl set-timezone "Asia/Shanghai"
            sudo -E mkdir -p /workdir
            sudo -E chown -R $USER:$GROUPS /workdir
-           sudo -E cd /workdir
+           cd /workdir
 
       - name: Freeing up disk space
         uses: easimon/maximize-build-space@master
