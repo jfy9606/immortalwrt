@@ -136,10 +136,7 @@ jobs:
             cp -f "$config" .config
             echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
             make defconfig
-
             make download -j16
-            find dl -size -1024c -exec rm -f {} \;
-
             make -j$(nproc) || make -j1 V=s
 
             echo "======================="
@@ -164,7 +161,7 @@ jobs:
       - name: Upload All Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: OpenWrt_All_Firmwares
+          name: Openwrt_artifacts
           path: ./artifact/
           
       - name: Upload Firmware from Targets Directory
