@@ -68,19 +68,18 @@ jobs:
         env:
            DEBIAN_FRONTEND: noninteractive
         run: |
-           sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
-           sudo -E apt-mark hold grub-efi-amd64-signed
-           sudo -E apt update
-           sudo -E apt -y purge azure-cli* llvm* docker* google* powershell* snap*
-           sudo -E apt -y full-upgrade
-           sudo -E sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
+           sudo -E rm -rf /usr/share/dotnet /usr/local/graalvm/ /usr/local/.ghcup/ /etc/mysql /etc/php /usr/local/share/powershell /usr/local/share/chromium /etc/apt/sources.list.d /usr/local/lib/android /usr/local/lib/node_modules
+           sudo -E apt-mark hold grub-efi-amd64-signed $(dpkg --list | grep '^ii  linux-image' | awk '{print $2}')
+           sudo -E apt -qq update
+           sudo -E apt -qq -y purge azure-cli* '^llvm-.*' docker* google* powershell* snap*
+           sudo -E apt -qq -y full-upgrade
+           sudo -E sudo apt -qq install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
            sudo -E systemctl daemon-reload
-           sudo -E apt -y autoremove --purge
-           sudo -E apt autoclean
+           sudo -E apt -qq -y autoremove --purge
+           sudo -E apt -qq autoclean
            sudo -E timedatectl set-timezone "Asia/Shanghai"
            sudo -E mkdir -p /workdir
-           sudo -E chown -R $USER:$(id -gn) /workdir
-           cd /workdir
+           sudo -E chown -R $USER:$GROUPS /workdir
 
       - name: Freeing up disk space
         uses: easimon/maximize-build-space@master
@@ -93,10 +92,10 @@ jobs:
           remove-codeql: 'true'
           remove-docker-images: 'false'
 
-      - name: Checkout OpenWrt
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      #- name: Checkout OpenWrt
+      #  uses: actions/checkout@v4
+      #  with:
+      #    fetch-depth: 0
         
       - name: Clone source code
         working-directory: /workdir
@@ -116,11 +115,12 @@ jobs:
       
       - name: Update feeds
         run: |
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
+          /workdir/openwrt/scripts/feeds update -a
+          /workdir/openwrt/scripts/feeds install -a
 
       - name: Generate and Compile Firmware for Each Configuration
         run: |
+          cd /workdir/openwrt
           for config in .github/menuconfig/mt7981/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
