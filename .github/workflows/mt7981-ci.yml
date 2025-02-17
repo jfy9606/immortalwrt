@@ -115,8 +115,8 @@ jobs:
       
       - name: Update feeds
         run: |
-          /workdir/openwrt/scripts/feeds update -a
-          /workdir/openwrt/scripts/feeds install -a
+          /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/scripts/feeds update -a
+          /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/scripts/feeds install -a
 
       - name: Generate and Compile Firmware for Each Configuration
         run: |
