@@ -111,6 +111,9 @@ jobs:
         uses: stupidloud/cachewrtbuild@main
         with:
           ccache: 'true'
+          toolchain: 'false'
+          skip: 'false'
+          clean: 'false'
           prefix: ${{ github.workspace }}/openwrt
       
       - name: Update feeds
