@@ -108,7 +108,7 @@ jobs:
           ln -sf /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
       - name: cache
-        uses: HiGarfield/cachewrtbuild@main
+        uses: stupidloud/cachewrtbuild@main
         with:
           ccache: 'false'
           toolchain: 'false'
