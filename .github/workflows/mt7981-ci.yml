@@ -107,13 +107,10 @@ jobs:
           git clone $REPO_URL -b $REPO_BRANCH openwrt
           ln -sf /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-      - name: cache
+      - name: Enable build ccache
         uses: stupidloud/cachewrtbuild@main
         with:
-          ccache: 'false'
-          toolchain: 'false'
-          skip: 'false'
-          clean: 'false'
+          ccache: 'true'
           prefix: ${{ github.workspace }}/openwrt
       
       - name: Update & Install feeds
