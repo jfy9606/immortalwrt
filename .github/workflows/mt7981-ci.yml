@@ -93,7 +93,7 @@ jobs:
            sudo -E chown -R $USER:$GROUPS /home/runner/work/immortalwrt/immortalwrt/workdir
 
       #- name: Checkout OpenWrt
-      #  uses: actions/checkout@v4
+      #  uses: actions/checkout@main
       #  with:
       #    fetch-depth: 0
         
@@ -108,15 +108,15 @@ jobs:
           ln -sf /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
       - name: cache
-        uses: stupidloud/cachewrtbuild@main
+        uses: HiGarfield/cachewrtbuild@main
         with:
-          ccache: 'true'
+          ccache: 'false'
           toolchain: 'false'
           skip: 'false'
           clean: 'false'
           prefix: ${{ github.workspace }}/openwrt
       
-      - name: Update feeds
+      - name: Update & Install feeds
         run: |
           /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/scripts/feeds update -a
           /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/scripts/feeds install -a
@@ -131,10 +131,9 @@ jobs:
             echo "======================================="
 
             cp -f "$config" .config
-            echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
             make defconfig
             make download -j16
-            make -j$(nproc) || make -j1 V=s
+            make -j$(nproc) || make -j1 || make -j1 V=s
 
             echo "======================="
             echo "Space usage after build ($CONFIG_NAME):"
@@ -156,13 +155,13 @@ jobs:
           done
 
       - name: Upload All Build Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: Openwrt_artifacts
           path: ./artifact/
           
       - name: Upload Firmware from Targets Directory
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: OpenWrt_firmware_from_targets
           path: ./bin/targets/
