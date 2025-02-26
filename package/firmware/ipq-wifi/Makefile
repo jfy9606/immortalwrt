@@ -74,7 +74,6 @@ ALLWIFIBOARDS:= \
 	zte_mf287 \
 	zte_mf287plus \
 	zyxel_nbg7815 \
-	aliyun_ap8220
 
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
@@ -215,6 +214,5 @@ $(eval $(call generate-ipq-wifi-package,zte_mf269,ZTE MF269))
 $(eval $(call generate-ipq-wifi-package,zte_mf287,ZTE MF287))
 $(eval $(call generate-ipq-wifi-package,zte_mf287plus,ZTE MF287Plus))
 $(eval $(call generate-ipq-wifi-package,zyxel_nbg7815,Zyxel NBG7815))
-$(eval $(call generate-ipq-wifi-package,aliyun_ap8220,Aliyun AP8220))
 
 $(foreach PACKAGE,$(ALLWIFIPACKAGES),$(eval $(call BuildPackage,$(PACKAGE))))
