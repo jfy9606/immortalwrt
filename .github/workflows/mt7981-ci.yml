@@ -153,13 +153,13 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: Openwrt_artifacts
-          path: ./artifact/
+          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/
           
       - name: Upload Firmware from Targets Directory
         uses: actions/upload-artifact@main
         with:
           name: OpenWrt_firmware_from_targets
-          path: ./bin/targets/
+          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/bin/targets/
 
       #- name: Upload release asset
       #  if: github.event == 'release'
