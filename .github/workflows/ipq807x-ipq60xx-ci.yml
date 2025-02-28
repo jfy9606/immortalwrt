@@ -121,6 +121,7 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
+          git checkout main-ipq807x-ipq60xx
           for config in .github/menuconfig/ipq807x-ipq60xx/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
@@ -128,7 +129,6 @@ jobs:
             echo "======================================="
 
             cp -f "$config" .config
-            git checkout main-ipq807x-ipq60xx
             make defconfig
             make download -j16
             make -j$(nproc) || make -j1 || make -j1 V=s
