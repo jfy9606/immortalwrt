@@ -2,7 +2,7 @@
 . /usr/share/libubox/jshn.sh
 
 # 默认WIFI设置
-BASE_SSID='LiBwrt'
+BASE_SSID='Immortalwrt'
 BASE_WORD='12345678'
 
 # 获取无线设备的数量
@@ -20,7 +20,7 @@ configure_wifi() {
 	local current_encryption=$(uci get wireless.default_radio${radio}.encryption)
 
 	# 如果当前加密方式已设置且不为"none"，则不更新配置
-	if [ -n "$current_encryption" ] && [ "$current_encryption" != "none" ]; then
+	if [ -n "$current_encryption" ] && [ "$current_encryption" = "none" ]; then
 		echo "No update needed for radio${radio} with channel ${channel} and SSID ${ssid}"
 		return 0
 	fi
@@ -89,10 +89,10 @@ set_wifi_def_cfg() {
 		channel=149
 		[ "$htmode" = 'HE160' ] || [ "$htmode" = 'VHT160' ] && channel=44
 		if [ -z "$FIRST_5G" ]; then
-			[ "$RADIO_NUM" -gt 2 ] && WIFI_SSID="${BASE_SSID}-5G_1" || WIFI_SSID="${BASE_SSID}-5G"
+			[ "$RADIO_NUM" -gt 2 ] && WIFI_SSID="${BASE_SSID}"
 			FIRST_5G=1
 		else
-			WIFI_SSID="${BASE_SSID}-5G_2"
+			WIFI_SSID="${BASE_SSID}"
 		fi
 		;;
 	*)

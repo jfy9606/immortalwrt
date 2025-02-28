@@ -2,7 +2,7 @@
 
 ## 说明
 >对于以前IPQ系列想要使用OpenWrt系统只能放弃部分NSS功能，亦或者使用相对老旧的内核，在开源社区的努力下完善了这部分的支持  
->其中本库中融合了[JiaY-shi](https://github.com/JiaY-shi/openwrt)、[qosmio](https://github.com/qosmio/openwrt-ipq)两位大佬NSS支持的代码实现了这一功能，以及使用了[immortalwrt](https://github.com/immortalwrt)的luci、packages作为插件的支持,在此感谢大佬们的付出
+>其中本库中融合了[JiaY-shi](https://github.com/JiaY-shi/openwrt)、[qosmio](https://github.com/qosmio/openwrt-ipq)对NSS支持的代码实现了这一功能，以及使用了[immortalwrt](https://github.com/immortalwrt)的luci、packages作为插件的支持
 
 目前已实现功能
 | Target  | NSS NAT | 2.4G WiFi <br />`NSS Offload` | 5G WiFi <br />`NSS Offload` |
@@ -50,8 +50,8 @@
 3. 下载源代码，更新 feeds 并选择配置
 
    ```bash
-   git clone --depth 1 --single-branch https://github.com/LiBwrt-op/openwrt-6.x.git
-   cd openwrt-6.x
+   git clone --depth 1 --single-branch https://github.com/Immortalwrt/Immortalwrt.git
+   cd Immortalwrt
    ./scripts/feeds update -a && ./scripts/feeds install -a
    make menuconfig
    ```
@@ -67,8 +67,8 @@
 5. 二次编译：
 
    ```bash
-   cd openwrt-6.x
-   git fetch && git reset --hard origin/kernel-6.12
+   cd Immortalwrt
+   git fetch && git reset --hard origin/master
    ./scripts/feeds update -a && ./scripts/feeds install -a
    make menuconfig
    make V=s -j$(nproc)
@@ -83,10 +83,6 @@
    ```
 
 7. 编译完成后输出路径：bin/targets
-
-### 如果你喜欢这个项目的话别忘了点个Star⭐
-## Stargazers over time
-[![Stargazers over time](https://starchart.cc/LiBwrt-op/openwrt-6.x.svg?variant=adaptive)](https://starchart.cc/LiBwrt-op/openwrt-6.x)
 
 <a href="#readme">
 <img src="https://img.shields.io/badge/-返回顶部-FFFFFF.svg" title="返回顶部" align="left"/>
