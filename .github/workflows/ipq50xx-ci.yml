@@ -15,7 +15,7 @@ on:
       branch:
         description: "Git branch to build"
         required: true
-        default: "main-ipq50xx-qsdk"
+        default: "master-ipq50xx-qsdk"
         type: string
       
 permissions:
