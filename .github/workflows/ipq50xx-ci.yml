@@ -128,6 +128,7 @@ jobs:
             echo "======================================="
 
             cp -f "$config" .config
+            git checkout master-ipq50xx-qsdk
             make defconfig
             make download -j16
             make -j$(nproc) || make -j1 || make -j1 V=s
