@@ -101,7 +101,7 @@ jobs:
         working-directory: /home/runner/work/immortalwrt/immortalwrt/workdir
         env:
           REPO_URL: "https://github.com/jfy9606/immortalwrt/"
-          REPO_BRANCH: "main"
+          REPO_BRANCH: "master-ipq50xx-qsdk"
         run: |
           df -hT $PWD
           git clone $REPO_URL -b $REPO_BRANCH openwrt
@@ -121,7 +121,6 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
-          git checkout master-ipq50xx-qsdk
           for config in .github/menuconfig/ipq50xx/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
