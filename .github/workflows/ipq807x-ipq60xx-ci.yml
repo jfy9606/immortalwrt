@@ -101,7 +101,7 @@ jobs:
         working-directory: /home/runner/work/immortalwrt/immortalwrt/workdir
         env:
           REPO_URL: "https://github.com/jfy9606/immortalwrt/"
-          REPO_BRANCH: "main"
+          REPO_BRANCH: "main-ipq807x-ipq60xx"
         run: |
           df -hT $PWD
           git clone $REPO_URL -b $REPO_BRANCH openwrt
@@ -121,7 +121,6 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
-          git checkout main-ipq807x-ipq60xx
           for config in .github/menuconfig/ipq807x-ipq60xx/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
