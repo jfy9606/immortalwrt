@@ -542,7 +542,7 @@
 		#size-cells = <2>;
 		ranges;
 
-		wifi0: wifi@1,0 {
+		wifi@1,0 {
 			status = "okay";
 
 			/* ath11k has no DT compatible for PCI cards */
@@ -569,7 +569,7 @@
 		#size-cells = <2>;
 		ranges;
 
-		wifi@1,0 {
+		wifi0: wifi@1,0 {
 			status = "okay";
 
 			compatible = "qcom,ath10k";
