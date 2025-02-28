@@ -23,9 +23,9 @@ if [ -n "$ula_prefix" ]; then
 
 	uci set network.wan6.reqaddress='try'
 	uci set network.wan6.reqprefix='auto'
-	uci set network.lan.ip6assign='64'
+	uci set network.lan.ip6assign='60'
 	uci set network.lan.ip6ifaceid='eui64'
-	uci del network.globals.ula_prefix
+	#uci del network.globals.ula_prefix
 
 	uci commit network
 fi
