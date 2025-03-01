@@ -5,7 +5,7 @@
 #
 # Copyright (C) 2020 KFERMercer
 #
-name: mt7981-CI
+name: mt798x-CI
 
 on:
   #schedule:
@@ -121,7 +121,7 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
-          for config in .github/menuconfig/mt7981/menuconfig-*; do
+          for config in .github/menuconfig/mt798x/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
             echo "Building with configuration: $CONFIG_NAME"
@@ -152,13 +152,13 @@ jobs:
       - name: Upload All Build Artifacts
         uses: actions/upload-artifact@main
         with:
-          name: MT7981_artifacts
+          name: MT798X_artifacts
           path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/
           
       - name: Upload Firmware from Targets Directory
         uses: actions/upload-artifact@main
         with:
-          name: MT7981_firmware_package
+          name: MT798X_firmware_package
           path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/bin/targets/
 
       #- name: Upload release asset
