@@ -15,7 +15,7 @@ on:
       branch:
         description: "Git branch to build"
         required: true
-        default: "main-nft"
+        default: "main-turboacc"
         type: string
       
 permissions:
@@ -101,7 +101,7 @@ jobs:
         working-directory: /home/runner/work/immortalwrt/immortalwrt/workdir
         env:
           REPO_URL: "https://github.com/jfy9606/immortalwrt/"
-          REPO_BRANCH: "main-nft"
+          REPO_BRANCH: "main-turboacc"
         run: |
           df -hT $PWD
           git clone $REPO_URL -b $REPO_BRANCH openwrt
