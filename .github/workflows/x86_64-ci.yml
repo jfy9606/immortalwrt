@@ -153,7 +153,7 @@ jobs:
       - name: Upload All Build Artifacts
         uses: actions/upload-artifact@main
         with:
-          name: X86_64_MT798X_artifacts
+          name: X86_64_artifacts
           path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/
           
       - name: Upload Firmware from Targets Directory
