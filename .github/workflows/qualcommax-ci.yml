@@ -122,7 +122,7 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
-          for config in .github/menuconfig/Qualcommax/menuconfig-*; do
+          for config in .github/menuconfig/qualcommax/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
             echo "Building with configuration: $CONFIG_NAME"
