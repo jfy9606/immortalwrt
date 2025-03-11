@@ -321,6 +321,8 @@ define Build/Compile
 endef
 
 define KernelPackage/mt_wifi/install
+	rm -rf $(1)/lib/firmware/; \
+	$(INSTALL_DIR) $(1)/lib/firmware/; \
 	if [ "$$(CONFIG_MTK_CHIP_MT7986)" = "y" ] ; then \
 		$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mt7986/rebb/MT7986_* $(1)/lib/firmware/; \
 	fi ; \
@@ -366,4 +368,5 @@ define KernelPackage/mt_wifi/install
 	fi
 endef
 
+$(eval $(call KernelPackage,mt_wifi))
 $(eval $(call KernelPackage,mt_wifi))
