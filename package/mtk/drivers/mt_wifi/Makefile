@@ -369,4 +369,3 @@ define KernelPackage/mt_wifi/install
 endef
 
 $(eval $(call KernelPackage,mt_wifi))
-$(eval $(call KernelPackage,mt_wifi))
