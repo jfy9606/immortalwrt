@@ -8,6 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=datconf
+PKG_VERSION:=7.6.7.2
 PKG_REVISION:=757f9679
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_REVISION).tar.bz2
 PKG_RELEASE:=1
