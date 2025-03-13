@@ -5,7 +5,7 @@
 #
 # Copyright (C) 2020 KFERMercer
 #
-name: mt798x-mtk-old-CI
+name: mt798x-mtk-23.05-CI
 
 on:
   #schedule:
@@ -15,7 +15,7 @@ on:
       branch:
         description: "Git branch to build"
         required: true
-        default: "master-mtk"
+        default: "master-mtk-23.05"
         type: string
       
 permissions:
@@ -101,7 +101,7 @@ jobs:
         working-directory: /home/runner/work/immortalwrt/immortalwrt/workdir
         env:
           REPO_URL: "https://github.com/jfy9606/immortalwrt/"
-          REPO_BRANCH: "master-mtk"
+          REPO_BRANCH: "master-mtk-23.05"
         run: |
           df -hT $PWD
           git clone $REPO_URL -b $REPO_BRANCH openwrt
