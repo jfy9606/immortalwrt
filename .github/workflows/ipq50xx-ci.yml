@@ -111,7 +111,7 @@ jobs:
         uses: stupidloud/cachewrtbuild@main
         with:
           ccache: 'true'
-          mixkey: 'cortex-a53'
+          mixkey: 'cortex-a53-legacy'
           prefix: ${{ github.workspace }}/openwrt
       
       - name: Update & Install feeds
@@ -153,17 +153,23 @@ jobs:
             cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") "$ARTIFACT_DIR/buildinfo/"
           done
 
-      - name: Upload All Build Artifacts
+      - name: Upload Firmware Artifacts
         uses: actions/upload-artifact@main
         with:
-          name: IPQ50XX_artifacts
-          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/
+          name: ipq50xx_firmware
+          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/$CONFIG_NAME/firmware
           
-      - name: Upload Firmware from Targets Directory
+      - name: Upload Package Artifacts
         uses: actions/upload-artifact@main
         with:
-          name: IPQ50XX_firmware_package
-          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/bin/targets/
+          name: ipq50xx_packages
+          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/$CONFIG_NAME/package
+
+      - name: Upload Buildinfo Artifacts
+        uses: actions/upload-artifact@main
+        with:
+          name: ipq50xx_buildinfo
+          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/$CONFIG_NAME/buildinfo
 
       #- name: Upload release asset
       #  if: github.event == 'release'
