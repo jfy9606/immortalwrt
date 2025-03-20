@@ -3,6 +3,7 @@ src-git luci https://github.com/jfy9606/openwrt-luci.git;immortalwrt
 src-git routing https://git.openwrt.org/feed/routing.git
 src-git telephony https://git.openwrt.org/feed/telephony.git
 src-git video https://github.com/openwrt/video.git
+# nss packages
 src-git nss_packages https://github.com/jfy9606/nss-packages.git;main
 # istore
 src-git store https://github.com/linkease/istore.git;main
