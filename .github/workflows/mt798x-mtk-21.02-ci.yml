@@ -147,7 +147,6 @@ jobs:
             mkdir -p "$ARTIFACT_DIR/buildinfo"
             mv $(find ./bin/targets/ -type f) "$ARTIFACT_DIR/firmware/"
             mv ./bin/packages/* "$ARTIFACT_DIR/package/"
-            mv $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") "$ARTIFACT_DIR/buildinfo/"
           done
 
       - name: Upload Firmware Artifacts
