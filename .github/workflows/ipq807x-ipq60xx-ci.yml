@@ -162,12 +162,6 @@ jobs:
           name: ipq807x-ipq806x_packages
           path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/$CONFIG_NAME/package
 
-      - name: Upload Buildinfo Artifacts
-        uses: actions/upload-artifact@main
-        with:
-          name: ipq807x-ipq806x_buildinfo
-          path: /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt/artifact/$CONFIG_NAME/buildinfo
-
       #- name: Upload release asset
       #  if: github.event == 'release'
       #  uses: svenstaro/upload-release-action@v4
