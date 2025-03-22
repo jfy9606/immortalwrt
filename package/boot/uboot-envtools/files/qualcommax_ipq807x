@@ -26,6 +26,12 @@ ubootenv_add_mmc() {
 }
 
 case "$board" in
+aliyun,ap8220|\
+compex,wpq873|\
+edgecore,eap102|\
+zyxel,nbg7815)
+	ubootenv_add_mtd "0:appsblenv" "0x0" "0x10000" "0x10000"
+	;;
 dynalink,dl-wrx36|\
 netgear,rax120v2|\
 netgear,sxr80|\

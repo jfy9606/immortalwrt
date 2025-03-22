@@ -25,6 +25,21 @@ include $(INCLUDE_DIR)/package.mk
 RSTRIP:=:
 STRIP:=:
 
+ATH11K_LEGACY_FW_NAME:=ath11k-legacy-firmware
+ATH11K_LEGACY_FW_DATE:=2024-03-14
+ATH11K_LEGACY_FW_RELEASE:=795809c7
+ATH11K_LEGACY_FW_SUBDIR:=$(ATH11K_LEGACY_FW_NAME)-$(ATH11K_LEGACY_FW_DATE)~$(ATH11K_LEGACY_FW_RELEASE)
+ATH11K_LEGACY_FW_SOURCE=$(ATH11K_LEGACY_FW_SUBDIR).tar.zst
+
+define Download/$(ATH11K_LEGACY_FW_NAME)
+	FILE:=$(ATH11K_LEGACY_FW_SOURCE)
+	PROTO:=git
+	URL:=https://github.com/quic/upstream-wifi-fw.git
+	SOURCE_VERSION:=795809c7041582bd51bdfaa1f548b916ae8d4382
+	MIRROR_HASH:=e042024b6762a5b4fe56f1a5bf8870df2e7abcca90ec22103cd46a609bee7cec
+	SUBDIR:=$(ATH11K_LEGACY_FW_SUBDIR)
+endef
+
 define Package/ath11k-firmware-default
   SECTION:=firmware
   CATEGORY:=Firmware
@@ -58,6 +73,21 @@ $(Package/ath11k-firmware-default)
   TITLE:=QCN9074 ath11k firmware
 endef
 
+define Build/Clean
+	$(call Build/Clean/Default,)
+
+	rm -rf \
+		$(BUILD_DIR)/$(ATH11K_LEGACY_FW_SUBDIR)
+endef
+
+define Build/Prepare
+	$(eval $(call Download,ath11k-legacy-firmware))
+	
+	$(call Build/Prepare/Default,)
+
+	$(TAR) -C $(BUILD_DIR) -xf $(DL_DIR)/$(ATH11K_LEGACY_FW_SOURCE)
+endef
+
 define Build/Compile
 
 endef
@@ -80,6 +110,13 @@ endef
 define Package/ath11k-firmware-qcn6122/install
 	$(INSTALL_DIR) $(1)/lib/firmware/ath11k/QCN6122/hw1.0
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/QCN6122/hw1.0/* $(1)/lib/firmware/ath11k/QCN6122/hw1.0/
+endef
+
+define Package/ath11k-firmware-qcn6122/install
+	$(INSTALL_DIR) $(1)/lib/firmware/ath11k/QCN6122/hw1.0
+	$(INSTALL_DATA) \
+		$(BUILD_DIR)/$(ATH11K_LEGACY_FW_SUBDIR)/ath11k-firmware/IPQ5018_QCN6122_QCN6122/hw1.0/2.7.0.1/WLAN.HK.2.7.0.1-01744-QCAHKSWPL_SILICONZ-1/qcn6122/* \
+		$(1)/lib/firmware/ath11k/QCN6122/hw1.0/
 endef
 
 define Package/ath11k-firmware-qcn9074/install
