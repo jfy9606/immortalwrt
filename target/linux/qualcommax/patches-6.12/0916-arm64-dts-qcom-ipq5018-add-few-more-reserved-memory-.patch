@@ -25,7 +25,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
 
 --- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-@@ -122,6 +122,24 @@
+@@ -134,6 +134,24 @@
  			hwlocks = <&tcsr_mutex 3>;
  		};
  
@@ -50,7 +50,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  		tz_region: tz@4ac00000 {
  			reg = <0x0 0x4ac00000 0x0 0x200000>;
  			no-map;
-@@ -219,6 +237,12 @@
+@@ -455,6 +473,12 @@
  		};
  
  		tcsr_mutex: hwlock@1905000 {

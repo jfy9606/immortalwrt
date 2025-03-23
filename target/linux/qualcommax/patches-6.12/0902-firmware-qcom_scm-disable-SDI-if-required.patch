@@ -26,7 +26,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
 
 --- a/drivers/firmware/qcom/qcom_scm.c
 +++ b/drivers/firmware/qcom/qcom_scm.c
-@@ -1568,6 +1568,13 @@ static int qcom_scm_qseecom_call(const s
+@@ -1733,6 +1733,13 @@ static int qcom_scm_qseecom_call(const s
  {
  	int status;
  

@@ -29,8 +29,8 @@ Subject: [PATCH] sw_error_t: add SW_FALSE & SW_TRUE
 +static sw_error_t
  _adpt_mp_port_phy_connected (a_uint32_t dev_id, fal_port_t port_id)
  {
- 	ADPT_DEV_ID_CHECK(dev_id);
-@@ -50,9 +50,9 @@ _adpt_mp_port_phy_connected (a_uint32_t
+ 	if (dev_id >= SW_MAX_NR_DEV)
+@@ -51,9 +51,9 @@ _adpt_mp_port_phy_connected (a_uint32_t
  	/* force port which connect s17c or other device chip*/
  	if (hsl_port_feature_get(dev_id, port_id, PHY_F_FORCE | PHY_F_SFP)) {
  		SSDK_DEBUG("port_id %d did not connect PHY!\n", port_id);
@@ -42,7 +42,7 @@ Subject: [PATCH] sw_error_t: add SW_FALSE & SW_TRUE
  	}
  }
  
-@@ -317,7 +317,7 @@ adpt_mp_port_txfc_status_set(a_uint32_t
+@@ -322,7 +322,7 @@ adpt_mp_port_txfc_status_set(a_uint32_t
  	a_bool_t force_mode = A_FALSE;
  	a_uint32_t phy_addr = 0;
  
@@ -51,7 +51,7 @@ Subject: [PATCH] sw_error_t: add SW_FALSE & SW_TRUE
  	{
  		rv = _adpt_mp_port_txfc_status_set(dev_id, port_id, enable);
  		SW_RTN_ON_ERROR(rv);
-@@ -423,7 +423,7 @@ adpt_mp_port_rxfc_status_set(a_uint32_t
+@@ -428,7 +428,7 @@ adpt_mp_port_rxfc_status_set(a_uint32_t
  	a_bool_t force_mode = A_FALSE;
  	a_uint32_t phy_addr = 0;
  
@@ -60,7 +60,7 @@ Subject: [PATCH] sw_error_t: add SW_FALSE & SW_TRUE
  	{
  		rv = _adpt_mp_port_rxfc_status_set(dev_id, port_id, enable);
  		SW_RTN_ON_ERROR(rv);
-@@ -1253,7 +1253,7 @@ adpt_mp_port_phy_status_get(a_uint32_t d
+@@ -1258,7 +1258,7 @@ adpt_mp_port_phy_status_get(a_uint32_t d
  		return SW_BAD_PARAM;
  	}
  

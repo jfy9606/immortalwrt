@@ -13,7 +13,7 @@ Signed-off-by: Devi Priya <quic_devipriy@quicinc.com>
 
 --- a/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
 +++ b/Documentation/devicetree/bindings/mfd/qcom,tcsr.yaml
-@@ -15,49 +15,101 @@ description:
+@@ -15,56 +15,108 @@ description:
  
  properties:
    compatible:
@@ -21,7 +21,9 @@ Signed-off-by: Devi Priya <quic_devipriy@quicinc.com>
 -      - enum:
 -          - qcom,msm8976-tcsr
 -          - qcom,msm8998-tcsr
+-          - qcom,qcm2290-tcsr
 -          - qcom,qcs404-tcsr
+-          - qcom,sa8775p-tcsr
 -          - qcom,sc7180-tcsr
 -          - qcom,sc7280-tcsr
 -          - qcom,sc8280xp-tcsr
@@ -29,7 +31,12 @@ Signed-off-by: Devi Priya <quic_devipriy@quicinc.com>
 -          - qcom,sdm845-tcsr
 -          - qcom,sdx55-tcsr
 -          - qcom,sdx65-tcsr
+-          - qcom,sdx75-tcsr
+-          - qcom,sm4450-tcsr
+-          - qcom,sm6115-tcsr
 -          - qcom,sm8150-tcsr
+-          - qcom,sm8250-tcsr
+-          - qcom,sm8350-tcsr
 -          - qcom,sm8450-tcsr
 -          - qcom,tcsr-apq8064
 -          - qcom,tcsr-apq8084
@@ -48,36 +55,43 @@ Signed-off-by: Devi Priya <quic_devipriy@quicinc.com>
 -          - qcom,tcsr-msm8996
 -      - const: syscon
 +    oneOf:
-+      - items:
-+          - enum:
-+              - qcom,msm8976-tcsr
-+              - qcom,msm8998-tcsr
-+              - qcom,qcs404-tcsr
-+              - qcom,sc7180-tcsr
-+              - qcom,sc7280-tcsr
-+              - qcom,sc8280xp-tcsr
-+              - qcom,sdm630-tcsr
-+              - qcom,sdm845-tcsr
-+              - qcom,sdx55-tcsr
-+              - qcom,sdx65-tcsr
-+              - qcom,sm4450-tcsr
-+              - qcom,sm8150-tcsr
-+              - qcom,sm8450-tcsr
-+              - qcom,tcsr-apq8064
-+              - qcom,tcsr-apq8084
-+              - qcom,tcsr-ipq5332
-+              - qcom,tcsr-ipq8064
-+              - qcom,tcsr-ipq8074
-+              - qcom,tcsr-ipq9574
-+              - qcom,tcsr-mdm9615
-+              - qcom,tcsr-msm8226
-+              - qcom,tcsr-msm8660
-+              - qcom,tcsr-msm8916
-+              - qcom,tcsr-msm8953
-+              - qcom,tcsr-msm8960
-+              - qcom,tcsr-msm8974
-+              - qcom,tcsr-msm8996
-+          - const: syscon
++      items:
++        - enum:
++            - qcom,msm8976-tcsr
++            - qcom,msm8998-tcsr
++            - qcom,qcm2290-tcsr
++            - qcom,qcs404-tcsr
++            - qcom,sa8775p-tcsr
++            - qcom,sc7180-tcsr
++            - qcom,sc7280-tcsr
++            - qcom,sc8280xp-tcsr
++            - qcom,sdm630-tcsr
++            - qcom,sdm845-tcsr
++            - qcom,sdx55-tcsr
++            - qcom,sdx65-tcsr
++            - qcom,sdx75-tcsr
++            - qcom,sm4450-tcsr
++            - qcom,sm6115-tcsr
++            - qcom,sm8150-tcsr
++            - qcom,sm8250-tcsr
++            - qcom,sm8350-tcsr
++            - qcom,sm8450-tcsr
++            - qcom,tcsr-apq8064
++            - qcom,tcsr-apq8084
++            - qcom,tcsr-ipq5332
++            - qcom,tcsr-ipq6018
++            - qcom,tcsr-ipq8064
++            - qcom,tcsr-ipq8074
++            - qcom,tcsr-ipq9574
++            - qcom,tcsr-mdm9615
++            - qcom,tcsr-msm8226
++            - qcom,tcsr-msm8660
++            - qcom,tcsr-msm8916
++            - qcom,tcsr-msm8953
++            - qcom,tcsr-msm8960
++            - qcom,tcsr-msm8974
++            - qcom,tcsr-msm8996
++        - const: syscon
 +      - items:
 +          - const: qcom,tcsr-ipq6018
 +          - const: syscon
@@ -145,4 +159,3 @@ Signed-off-by: Devi Priya <quic_devipriy@quicinc.com>
 +            #pwm-cells = <2>;
 +        };
 +    };
-\ No newline at end of file

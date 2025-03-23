@@ -13,7 +13,7 @@ Signed-off-by: George Moussalem <george.moussalem@outlook.com>
 
 --- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-@@ -200,6 +200,18 @@
+@@ -198,6 +198,18 @@
  			clocks = <&gcc GCC_MDIO0_AHB_CLK>;
  			clock-names = "gcc_mdio_ahb_clk";
  			status = "disabled";
@@ -32,7 +32,7 @@ Signed-off-by: George Moussalem <george.moussalem@outlook.com>
  		};
  
  		mdio1: mdio@90000 {
-@@ -394,8 +406,8 @@
+@@ -392,8 +404,8 @@
  				 <&pcie0_phy>,
  				 <&pcie1_phy>,
  				 <0>,

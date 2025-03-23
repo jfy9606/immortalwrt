@@ -30,7 +30,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	RTL_GIGA_MAC_NONE
 --- a/drivers/net/ethernet/realtek/r8169_main.c
 +++ b/drivers/net/ethernet/realtek/r8169_main.c
-@@ -56,6 +56,7 @@
+@@ -57,6 +57,7 @@
  #define FIRMWARE_8125A_3	"rtl_nic/rtl8125a-3.fw"
  #define FIRMWARE_8125B_2	"rtl_nic/rtl8125b-2.fw"
  #define FIRMWARE_8125D_1	"rtl_nic/rtl8125d-1.fw"
@@ -38,7 +38,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  #define FIRMWARE_8126A_2	"rtl_nic/rtl8126a-2.fw"
  #define FIRMWARE_8126A_3	"rtl_nic/rtl8126a-3.fw"
  
-@@ -139,6 +140,7 @@ static const struct {
+@@ -140,6 +141,7 @@ static const struct {
  	/* reserve 62 for CFG_METHOD_4 in the vendor driver */
  	[RTL_GIGA_MAC_VER_63] = {"RTL8125B",		FIRMWARE_8125B_2},
  	[RTL_GIGA_MAC_VER_64] = {"RTL8125D",		FIRMWARE_8125D_1},
@@ -46,7 +46,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	[RTL_GIGA_MAC_VER_70] = {"RTL8126A",		FIRMWARE_8126A_2},
  	[RTL_GIGA_MAC_VER_71] = {"RTL8126A",		FIRMWARE_8126A_3},
  };
-@@ -706,6 +708,7 @@ MODULE_FIRMWARE(FIRMWARE_8107E_2);
+@@ -707,6 +709,7 @@ MODULE_FIRMWARE(FIRMWARE_8107E_2);
  MODULE_FIRMWARE(FIRMWARE_8125A_3);
  MODULE_FIRMWARE(FIRMWARE_8125B_2);
  MODULE_FIRMWARE(FIRMWARE_8125D_1);
@@ -54,7 +54,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  MODULE_FIRMWARE(FIRMWARE_8126A_2);
  MODULE_FIRMWARE(FIRMWARE_8126A_3);
  
-@@ -2259,6 +2262,7 @@ static enum mac_version rtl8169_get_mac_
+@@ -2260,6 +2263,7 @@ static enum mac_version rtl8169_get_mac_
  		{ 0x7cf, 0x649,	RTL_GIGA_MAC_VER_70 },
  
  		/* 8125D family. */
@@ -62,7 +62,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		{ 0x7cf, 0x688,	RTL_GIGA_MAC_VER_64 },
  
  		/* 8125B family. */
-@@ -3839,6 +3843,7 @@ static void rtl_hw_config(struct rtl8169
+@@ -3840,6 +3844,7 @@ static void rtl_hw_config(struct rtl8169
  		[RTL_GIGA_MAC_VER_61] = rtl_hw_start_8125a_2,
  		[RTL_GIGA_MAC_VER_63] = rtl_hw_start_8125b,
  		[RTL_GIGA_MAC_VER_64] = rtl_hw_start_8125d,
@@ -70,7 +70,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  		[RTL_GIGA_MAC_VER_70] = rtl_hw_start_8126a,
  		[RTL_GIGA_MAC_VER_71] = rtl_hw_start_8126a,
  	};
-@@ -3857,6 +3862,7 @@ static void rtl_hw_start_8125(struct rtl
+@@ -3858,6 +3863,7 @@ static void rtl_hw_start_8125(struct rtl
  	switch (tp->mac_version) {
  	case RTL_GIGA_MAC_VER_61:
  	case RTL_GIGA_MAC_VER_64:

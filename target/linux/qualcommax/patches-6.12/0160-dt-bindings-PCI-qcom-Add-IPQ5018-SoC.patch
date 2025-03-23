@@ -20,7 +20,7 @@ Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
            - qcom,pcie-ipq6018
            - qcom,pcie-ipq8064
            - qcom,pcie-ipq8064-v2
-@@ -170,6 +171,7 @@ allOf:
+@@ -162,6 +163,7 @@ allOf:
          compatible:
            contains:
              enum:
@@ -28,7 +28,7 @@ Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
                - qcom,pcie-ipq6018
                - qcom,pcie-ipq8074-gen3
      then:
-@@ -337,6 +339,39 @@ allOf:
+@@ -320,6 +322,39 @@ allOf:
          compatible:
            contains:
              enum:
@@ -68,7 +68,7 @@ Signed-off-by: Nitheesh Sekar <quic_nsekar@quicinc.com>
                - qcom,pcie-msm8996
      then:
        properties:
-@@ -875,6 +910,7 @@ allOf:
+@@ -564,6 +599,7 @@ allOf:
                - qcom,pcie-apq8064
                - qcom,pcie-apq8084
                - qcom,pcie-ipq4019

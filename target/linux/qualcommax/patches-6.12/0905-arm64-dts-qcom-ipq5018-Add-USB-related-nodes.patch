@@ -16,7 +16,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
 
 --- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-@@ -147,6 +147,19 @@
+@@ -383,6 +383,19 @@
  			status = "disabled";
  		};
  
@@ -36,7 +36,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  		tlmm: pinctrl@1000000 {
  			compatible = "qcom,ipq5018-tlmm";
  			reg = <0x01000000 0x300000>;
-@@ -239,6 +252,47 @@
+@@ -545,6 +558,47 @@
  		};
  
  		usb: usb@8af8800 {

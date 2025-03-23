@@ -16,7 +16,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
 
 --- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-@@ -227,6 +227,16 @@
+@@ -478,6 +478,16 @@
  			qcom,ee = <0>;
  		};
  
@@ -33,7 +33,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  		blsp1_uart1: serial@78af000 {
  			compatible = "qcom,msm-uartdm-v1.4", "qcom,msm-uartdm";
  			reg = <0x078af000 0x200>;
-@@ -237,6 +247,20 @@
+@@ -498,6 +508,20 @@
  			status = "disabled";
  		};
  
