@@ -60,15 +60,6 @@ case "$board" in
 		[ "$PHYNBR" = "1" ] && macaddr_add $addr 3 > /sys${DEVPATH}/macaddress
 		[ "$PHYNBR" = "2" ] && macaddr_add $addr 4 > /sys${DEVPATH}/macaddress
 		;;
-	cetron,ct3003)
-		addr=$(mtd_get_mac_binary "art" 0)
-		[ "$PHYNBR" = "0" ] && macaddr_add $addr 1 > /sys${DEVPATH}/macaddress
-		[ "$PHYNBR" = "1" ] && macaddr_setbit_la $(macaddr_add $addr 2) > /sys${DEVPATH}/macaddress
-		;;
-	cmcc,rax3000m)
-		addr=$(cat /sys/class/net/eth0/address)
-		[ "$PHYNBR" = "1" ] && macaddr_add $addr -1 > /sys${DEVPATH}/macaddress
-		;;
 	comfast,cf-e393ax)
 		addr=$(mtd_get_mac_binary "Factory" 0x8000)
 		[ "$PHYNBR" = "1" ] && macaddr_add $addr 1 > /sys${DEVPATH}/macaddress
@@ -78,6 +69,7 @@ case "$board" in
 	cudy,m3000-v1|\
 	cudy,re3000-v1|\
 	cudy,tr3000-v1|\
+	cudy,tr3000-v1-ubootmod|\
 	cudy,wr3000s-v1|\
 	cudy,wr3000h-v1|\
 	cudy,wr3000-v1)
@@ -99,7 +91,8 @@ case "$board" in
 		[ "$PHYNBR" = "0" ] && echo "$addr" > /sys${DEVPATH}/macaddress
 		[ "$PHYNBR" = "1" ] && macaddr_add $addr 1 > /sys${DEVPATH}/macaddress
 		;;
-	h3c,magic-nx30-pro)
+	h3c,magic-nx30-pro|\
+	h3c,magic-nx30-pro-nmbm)
 		addr=$(mtd_get_mac_ascii pdt_data_1 ethaddr)
 		[ "$PHYNBR" = "0" ] && macaddr_add $addr 2 > /sys${DEVPATH}/macaddress
 		[ "$PHYNBR" = "1" ] && macaddr_add $addr 3 > /sys${DEVPATH}/macaddress

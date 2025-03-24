@@ -14,7 +14,7 @@ include $(INCLUDE_DIR)/target.mk
 DEFAULT_PACKAGES += \
 	kmod-leds-gpio kmod-gpio-button-hotplug \
 	kmod-qca-nss-dp \
-	wpad-basic-mbedtls uboot-envtools \
+	wpad-openssl uboot-envtools \
 	e2fsprogs kmod-fs-ext4 losetup
 
 $(eval $(call BuildTarget))

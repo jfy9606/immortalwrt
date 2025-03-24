@@ -83,7 +83,7 @@ define Build/Compile/Trusted-Firmware-A
 		OPENSSL_DIR=$(STAGING_DIR_HOST) \
 		$(if $(DTC),DTC="$(DTC)") \
 		PLAT=$(PLAT) \
-		BUILD_STRING="OpenWrt v$(PKG_VERSION)-$(PKG_RELEASE) ($(VARIANT))" \
+		BUILD_STRING="ImmortalWrt v$(PKG_VERSION)-$(PKG_RELEASE) ($(VARIANT))" \
 		$(TFA_MAKE_FLAGS)
 endef
 
