@@ -114,6 +114,7 @@ Signed-off-by: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
 +#include <linux/of_address.h>
 +#include <linux/of_device.h>
 +#include <linux/of_reserved_mem.h>
++#include <linux/of_platform.h>
 +#include <linux/platform_device.h>
 +#include <linux/reset.h>
 +#include <linux/soc/qcom/mdt_loader.h>
@@ -858,7 +859,7 @@ Signed-off-by: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
 +	return ret;
 +}
 +
-+static int q6_wcss_remove(struct platform_device *pdev)
++static void q6_wcss_remove(struct platform_device *pdev)
 +{
 +	struct rproc *rproc = platform_get_drvdata(pdev);
 +	struct q6_wcss *wcss = rproc->priv;
@@ -868,7 +869,6 @@ Signed-off-by: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
 +	rproc_del(rproc);
 +	rproc_free(rproc);
 +
-+	return 0;
 +}
 +
 +static const struct wcss_data q6_ipq5332_res_init = {

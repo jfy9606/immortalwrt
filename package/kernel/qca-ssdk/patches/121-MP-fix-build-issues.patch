@@ -69,7 +69,7 @@ Signed-off-by: George Moussalem <george.moussalem@outlook.com>
  {
 -	ADPT_DEV_ID_CHECK(dev_id);
 +	if (dev_id >= SW_MAX_NR_DEV)
-+		return A_FALSE;
++		return (sw_error_t)A_FALSE;
  
  	/* force port which connect s17c or other device chip*/
  	if (hsl_port_feature_get(dev_id, port_id, PHY_F_FORCE | PHY_F_SFP)) {
