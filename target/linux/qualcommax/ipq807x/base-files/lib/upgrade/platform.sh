@@ -165,18 +165,16 @@ platform_pre_upgrade() {
 
 platform_do_upgrade() {
 	case "$(board_name)" in
-	aliyun,ap8220)
-		active="$(fw_printenv -n active)"
-		if [ "$active" -eq "1" ]; then
-			CI_UBIPART="rootfs1"
-		else
-			CI_UBIPART="rootfs2"
-		fi
+	aliyun,ap8220|\
+	linksys,homewrk|\
+	zte,mf269-stock)
+		CI_UBIPART="rootfs"
 		nand_do_upgrade "$1"
 		;;
 	arcadyan,aw1000|\
 	cmcc,rm2-6|\
 	compex,wpq873|\
+	dynalink,dl-wrx36|\
 	edimax,cax1800|\
 	netgear,rax120v2|\
 	netgear,sxr80|\
@@ -199,22 +197,6 @@ platform_do_upgrade() {
 		nand_do_flash_file "$1" || nand_do_upgrade_failed
 		nand_do_restore_config || nand_do_upgrade_failed
 		buffalo_upgrade_optvol
-		;;
-	dynalink,dl-wrx36)
-		boot_part="$(fw_printenv -n boot_part)"
-		if [ -n "$UPGRADE_OPT_CURR_PARTITION" ]; then
-			if [ "$boot_part" -eq "2" ]; then
-				CI_UBIPART="rootfs_1"
-			fi
-		else
-			if [ "$boot_part" -eq "1" ]; then
-				fw_setenv boot_part 2
-				CI_UBIPART="rootfs_1"
-			else
-				fw_setenv boot_part 1
-			fi
-		fi
-		nand_do_upgrade "$1"
 		;;
 	edgecore,eap102)
 		active="$(fw_printenv -n active)"
@@ -350,6 +332,21 @@ platform_do_upgrade() {
 		fi
 		emmc_do_upgrade "$1"
 		;;
+	verizon,cr1000a)
+		CI_KERNPART="0:HLOS"
+		CI_ROOTPART="rootfs"
+		rootpart=$(find_mmc_part "$CI_ROOTPART")
+		mmcblk_hlos=$(find_mmc_part "$CI_KERNPART" | sed -e "s/^\/dev\///")
+		hlos_start=$(cat /sys/class/block/$mmcblk_hlos/start)
+		hlos_size=$(cat /sys/class/block/$mmcblk_hlos/size)
+		hlos_start_hex=$(printf "%X\n" "$hlos_start")
+		hlos_size_hex=$(printf "%X\n" "$hlos_size")
+		fw_setenv set_custom_bootargs "setenv bootargs console=ttyMSM0,115200n8 root=$rootpart rootwait fstools_ignore_partname=1"
+		fw_setenv read_hlos_emmc "mmc read 44000000 0x$hlos_start_hex 0x$hlos_size_hex"
+		fw_setenv setup_and_boot "run set_custom_bootargs;run read_hlos_emmc; bootm 44000000"
+		fw_setenv bootcmd "run setup_and_boot"
+		emmc_do_upgrade "$1"
+		;;
 	*)
 		default_do_upgrade "$1"
 		;;
@@ -361,7 +358,8 @@ platform_copy_config() {
 	prpl,haze|\
 	qnap,301w|\
 	spectrum,sax1v1k|\
-	zyxel,nbg7815)
+	zyxel,nbg7815|\
+	verizon,cr1000a)
 		emmc_copy_config
 		;;
 	esac
