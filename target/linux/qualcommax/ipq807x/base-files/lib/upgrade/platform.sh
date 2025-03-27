@@ -108,7 +108,7 @@ tplink_do_upgrade() {
 	nand_do_upgrade "$1"
 }
 
-linksys_mx_do_upgrade() {
+linksys_mx_pre_upgrade() {
 	local setenv_script="/tmp/fw_env_upgrade"
 
 	CI_UBIPART="rootfs"
@@ -144,7 +144,6 @@ linksys_mx_do_upgrade() {
 			return 1
 		}
 	fi
-	nand_do_upgrade "$1"
 }
 
 platform_check_image() {
@@ -167,7 +166,12 @@ platform_pre_upgrade() {
 platform_do_upgrade() {
 	case "$(board_name)" in
 	aliyun,ap8220)
-		CI_UBIPART="rootfs"
+		active="$(fw_printenv -n active)"
+		if [ "$active" -eq "1" ]; then
+			CI_UBIPART="rootfs1"
+		else
+			CI_UBIPART="rootfs2"
+		fi
 		nand_do_upgrade "$1"
 		;;
 	arcadyan,aw1000|\
@@ -232,28 +236,14 @@ platform_do_upgrade() {
 	linksys,mx4200v1|\
 	linksys,mx4200v2|\
 	linksys,mx4300)
+		linksys_mx_pre_upgrade "$1"
 		remove_oem_ubi_volume squashfs
-		linksys_mx_do_upgrade "$1"
+		nand_do_upgrade "$1"
 		;;
 	linksys,mx5300|\
 	linksys,mx8500)
-		boot_part="$(fw_printenv -n boot_part)"
-		if [ -n "$UPGRADE_OPT_CURR_PARTITION" ]; then
-			if [ "$boot_part" -eq "2" ]; then
-				CI_KERNPART="alt_kernel"
-				CI_UBIPART="alt_rootfs"
-			fi
-		else
-			if [ "$boot_part" -eq "1" ]; then
-				fw_setenv boot_part 2
-				CI_KERNPART="alt_kernel"
-				CI_UBIPART="alt_rootfs"
-			else
-				fw_setenv boot_part 1
-			fi
-		fi
-		fw_setenv boot_part_ready 3
-		fw_setenv auto_recovery yes
+		linksys_mx_pre_upgrade "$1"
+		remove_oem_ubi_volume ubifs
 		nand_do_upgrade "$1"
 		;;
 	prpl,haze|\

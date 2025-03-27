@@ -142,7 +142,7 @@
  #endif
 --- a/include/net/route.h
 +++ b/include/net/route.h
-@@ -245,6 +245,11 @@ struct rtable *rt_dst_alloc(struct net_d
+@@ -246,6 +246,11 @@ struct rtable *rt_dst_alloc(struct net_d
  			    unsigned int flags, u16 type, bool noxfrm);
  struct rtable *rt_dst_clone(struct net_device *dev, struct rtable *rt);
  
@@ -707,7 +707,7 @@
   */
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
-@@ -1706,6 +1706,7 @@ const char *netdev_cmd_to_name(enum netd
+@@ -1737,6 +1737,7 @@ const char *netdev_cmd_to_name(enum netd
  	N(PRE_CHANGEADDR) N(OFFLOAD_XSTATS_ENABLE) N(OFFLOAD_XSTATS_DISABLE)
  	N(OFFLOAD_XSTATS_REPORT_USED) N(OFFLOAD_XSTATS_REPORT_DELTA)
  	N(XDP_FEAT_CHANGE)

@@ -6,9 +6,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/firmware/qca-wireless.git
-PKG_SOURCE_DATE:=2025-01-15
-PKG_SOURCE_VERSION:=6e1801a4992fe72a98a2219f2dcd038194785971
-PKG_MIRROR_HASH:=569cf6894e21712ed6a5553b4fad0bbdeed14e0cc4b9292f5f86343f7897fc7e
+PKG_SOURCE_DATE:=2025-02-17
+PKG_SOURCE_VERSION:=dd3577ec9f2d9d3ef5e35602d3fe731cb259ff39
+PKG_MIRROR_HASH:=0da921982b33a831dd19e570974a22ad2b1f3324397b1203a8a38d7d044b073a
 PKG_FLAGS:=nonshared
 
 include $(INCLUDE_DIR)/package.mk
@@ -28,6 +28,7 @@ endef
 
 ALLWIFIBOARDS:= \
 	8devices_mango \
+	aliyun_ap8220 \
 	arcadyan_aw1000 \
 	asus_rt-ax89x \
 	buffalo_wxr-5950ax12 \
@@ -42,10 +43,14 @@ ALLWIFIBOARDS:= \
 	glinet_gl-axt1800 \
 	jdcloud_re-ss-01 \
 	jdcloud_re-cs-02 \
+	jdcloud_re-cs-03 \
 	linksys_mr7350 \
+	linksys_mx2000 \
 	linksys_mx4200 \
 	linksys_mx5300 \
+	linksys_mx5500 \
 	linksys_mx8500 \
+	linksys_spnmx56 \
 	linksys_whw03 \
 	netgear_lbr20 \
 	netgear_rax120v2 \
@@ -78,10 +83,11 @@ ALLWIFIBOARDS:= \
 	yuncore_fap650 \
 	zbtlink_zbt-z800ax \
 	zte_mf269 \
+	zte_mf286ar\
+	zte_mf286c \
 	zte_mf287 \
 	zte_mf287plus \
-	zyxel_nbg7815 \
-	aliyun_ap8220
+	zyxel_nbg7815
 
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
@@ -89,7 +95,7 @@ define Package/ipq-wifi-default
   SUBMENU:=Atheros Board-Specific Overrides
   SECTION:=firmware
   CATEGORY:=Firmware
-  DEPENDS:=@(TARGET_ipq40xx||TARGET_ipq50xx||TARGET_ipq806x||TARGET_qualcommax)
+  DEPENDS:=@(TARGET_ath79||TARGET_ipq40xx||TARGET_ipq806x||TARGET_qualcommax)
   TITLE:=Custom Board
 endef
 
@@ -121,7 +127,7 @@ define ipq-wifi-install-one
   $(if $(filter $(suffix $(1)),.IPQ8074 .ipq8074),\
     $(call ipq-wifi-install-ath11-one-to,$(1),$(2),IPQ8074/hw2.0),\
   $(if $(filter $(suffix $(1)),.QCN6122 .qcn6122),\
-    $(call ipq-wifi-install-ath11-one-to,$(1),$(2),qcn6122/hw1.0),\
+    $(call ipq-wifi-install-ath11-one-to,$(1),$(2),QCN6122/hw1.0),\
   $(if $(filter $(suffix $(1)),.QCN9074 .qcn9074),\
     $(call ipq-wifi-install-ath11-one-to,$(1),$(2),QCN9074/hw1.0),\
     $(error Unrecognized board-file suffix '$(suffix $(1))' for '$(1)')\
@@ -176,6 +182,7 @@ endef
 #   board-<devicename>.<qca4019|qca9888|qca9889|qca9984|qca99x0|ipq8074>
 
 $(eval $(call generate-ipq-wifi-package,8devices_mango,8devices Mango))
+$(eval $(call generate-ipq-wifi-package,aliyun_ap8220,Aliyun AP8220))
 $(eval $(call generate-ipq-wifi-package,arcadyan_aw1000,Arcadyan AW1000))
 $(eval $(call generate-ipq-wifi-package,asus_rt-ax89x,Asus RT-AX89X))
 $(eval $(call generate-ipq-wifi-package,buffalo_wxr-5950ax12,Buffalo WXR-5950AX12))
@@ -190,10 +197,14 @@ $(eval $(call generate-ipq-wifi-package,glinet_gl-ax1800,GL.iNet GL-AX1800))
 $(eval $(call generate-ipq-wifi-package,glinet_gl-axt1800,GL.iNet GL-AXT1800))
 $(eval $(call generate-ipq-wifi-package,jdcloud_re-ss-01,JDCloud RE-SS-01))
 $(eval $(call generate-ipq-wifi-package,jdcloud_re-cs-02,JDCloud RE-CS-02))
+$(eval $(call generate-ipq-wifi-package,jdcloud_re-cs-03,JDCloud RE-CS-03))
 $(eval $(call generate-ipq-wifi-package,linksys_mr7350,Linksys MR7350))
+$(eval $(call generate-ipq-wifi-package,linksys_mx2000,Linksys MX2000))
 $(eval $(call generate-ipq-wifi-package,linksys_mx4200,Linksys MX4200))
 $(eval $(call generate-ipq-wifi-package,linksys_mx5300,Linksys MX5300))
+$(eval $(call generate-ipq-wifi-package,linksys_mx5500,Linksys MX5500))
 $(eval $(call generate-ipq-wifi-package,linksys_mx8500,Linksys MX8500))
+$(eval $(call generate-ipq-wifi-package,linksys_spnmx56,Linksys SPNMX56))
 $(eval $(call generate-ipq-wifi-package,linksys_whw03,Linksys WHW03))
 $(eval $(call generate-ipq-wifi-package,netgear_lbr20,Netgear LBR20))
 $(eval $(call generate-ipq-wifi-package,netgear_rax120v2,Netgear RAX120v2))
@@ -226,9 +237,10 @@ $(eval $(call generate-ipq-wifi-package,zn_m2,ZN M2))
 $(eval $(call generate-ipq-wifi-package,yuncore_fap650,Yuncore FAP650))
 $(eval $(call generate-ipq-wifi-package,zbtlink_zbt-z800ax,Zbtlink ZBT-Z800AX))
 $(eval $(call generate-ipq-wifi-package,zte_mf269,ZTE MF269))
+$(eval $(call generate-ipq-wifi-package,zte_mf286ar,ZTE MF286A/R))
+$(eval $(call generate-ipq-wifi-package,zte_mf286c,ZTE MF286C))
 $(eval $(call generate-ipq-wifi-package,zte_mf287,ZTE MF287))
 $(eval $(call generate-ipq-wifi-package,zte_mf287plus,ZTE MF287Plus))
 $(eval $(call generate-ipq-wifi-package,zyxel_nbg7815,Zyxel NBG7815))
-$(eval $(call generate-ipq-wifi-package,aliyun_ap8220,Aliyun AP8220))
 
 $(foreach PACKAGE,$(ALLWIFIPACKAGES),$(eval $(call BuildPackage,$(PACKAGE))))
