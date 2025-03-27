@@ -127,18 +127,6 @@
 	};
 };
 
-&dp5 {
-	status = "okay";
-	phy-handle = <&qca8081_24>;
-	label = "lan";
-};
-
-&dp6 {
-	status = "okay";
-	phy-handle = <&qca8081_28>;
-	label = "wan";
-};
-
 &wifi {
 	status = "okay";
 	qcom,ath11k-fw-memory-mode = <1>;

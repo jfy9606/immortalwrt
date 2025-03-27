@@ -71,6 +71,11 @@ platform_check_image() {
 
 platform_do_upgrade() {
 	case "$(board_name)" in
+	jdcloud,re-cs-03)
+		CI_KERNPART="0:HLOS"
+		CI_ROOTPART="rootfs"
+		emmc_do_upgrade "$1"
+		;;
 	linksys,mr5500|\
 	jdcloud,re-cs-03)
 		CI_KERNPART="0:HLOS"

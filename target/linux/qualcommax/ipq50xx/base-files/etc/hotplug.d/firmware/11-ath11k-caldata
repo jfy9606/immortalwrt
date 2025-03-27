@@ -9,6 +9,9 @@ board=$(board_name)
 case "$FIRMWARE" in
 "ath11k/IPQ5018/hw1.0/cal-ahb-c000000.wifi.bin")
 	case "$board" in
+	jdcloud,re-cs-03)
+		caldata_extract_mmc "0:ART" 0x1000 0x20000
+		;;
 	linksys,mr5500|\
 	jdcloud,re-cs-03)
 		caldata_extract_mmc "0:ART" 0x1000 0x20000
