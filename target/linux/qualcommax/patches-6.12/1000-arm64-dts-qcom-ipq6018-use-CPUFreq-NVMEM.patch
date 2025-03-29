@@ -20,7 +20,7 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
 
 --- a/arch/arm64/boot/dts/qcom/ipq6018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-@@ -122,14 +122,14 @@
+@@ -125,14 +125,14 @@
  		opp-1320000000 {
  			opp-hz = /bits/ 64 <1320000000>;
  			opp-microvolt = <862500>;
