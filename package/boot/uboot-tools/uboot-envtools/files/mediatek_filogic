@@ -116,6 +116,7 @@ mediatek,mt7988a-rfb)
 	esac
 	;;
 abt,asr3000|\
+asus,zenwifi-bt8-ubootmod|\
 cetron,ct3003-ubootmod|\
 cmcc,a10-ubootmod|\
 cudy,tr3000-v1-ubootmod|\
