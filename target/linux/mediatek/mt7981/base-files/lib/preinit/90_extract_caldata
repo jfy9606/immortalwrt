@@ -19,6 +19,7 @@ do_extract_caldata() {
 	cmcc,xr30-emmc |\
 	cmcc,rax3000m-emmc |\
 	ruijie,rg-x30e* |\
+    sl,3000-emmc |\
 	huasifei,wh3000-emmc)
 		FIRMWARE=MT7981_iPAiLNA_EEPROM.bin
 		caldata_validate && exit 0

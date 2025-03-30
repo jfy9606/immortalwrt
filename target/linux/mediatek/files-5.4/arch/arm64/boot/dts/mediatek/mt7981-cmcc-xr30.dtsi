@@ -6,7 +6,11 @@
 		led-boot = &red_led;
 		led-failsafe = &red_led;
 		led-running = &white_led;
-		led-upgrade = &red_led;
+		led-upgrade = &white_led;
+	};
+
+	memory {
+		reg = <0 0x40000000 0 0x20000000>;
 	};
 
 	leds {
@@ -21,10 +25,6 @@
 			label = "xr30:white";
 			gpios = <&pio 34 GPIO_ACTIVE_LOW>;
 		};
-	};
-
-	memory {
-		reg = <0 0x40000000 0 0x20000000>;
 	};
 
 	gpio-keys {
@@ -42,7 +42,6 @@
 			linux,input-type = <EV_SW>;
 		};
 	};
-
 };
 
 &uart0 {
@@ -70,7 +69,6 @@
 
 	gmac1: mac@1 {
 		compatible = "mediatek,eth-mac";
-		label = "wan";
 		reg = <1>;
 		phy-mode = "gmii";
 		phy-handle = <&phy0>;
@@ -99,7 +97,7 @@
 
 				port@0 {
 					reg = <0>;
-					label = "lan3";
+					label = "lan1";
 				};
 
 				port@1 {
@@ -109,7 +107,7 @@
 
 				port@2 {
 					reg = <2>;
-					label = "lan1";
+					label = "lan3";
 				};
 
 				port@6 {
