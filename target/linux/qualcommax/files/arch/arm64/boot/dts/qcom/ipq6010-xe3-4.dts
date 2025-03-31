@@ -82,6 +82,10 @@
 	status = "okay";
 };
 
+&rpm {
+	status = "disabled";
+};
+
 &tlmm {
 	gpio-reserved-ranges = <20 1>;
 
