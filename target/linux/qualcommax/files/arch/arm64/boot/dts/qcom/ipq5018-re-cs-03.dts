@@ -1,11 +1,12 @@
-// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-
 /dts-v1/;
 
 #include "ipq5018.dtsi"
 #include "ipq5018-ess.dtsi"
+#include "ipq5018-nss.dtsi"
+#include "ipq5018-512m.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
 
 / {
 	model = "JDCloud RE-CS-03";
@@ -15,24 +16,44 @@
 
 	aliases {
 		sdhc1 = &sdhc_1;
-		serial0 = &blsp1_uart1;
-		serial1 = &blsp1_uart2;
-
-		ethernet0 = &dp1;
 		ethernet1 = &dp2;
 		label-mac-device = &dp2;
-
 		led-boot = &led_status_blue;
 		led-failsafe = &led_status_red;
 		led-running = &led_status_green;
 		led-upgrade = &led_status_red;
+		serial0 = &blsp1_uart1;
 	};
 	chosen {
 		stdout-path = "serial0:115200n8";
 	};
 
+	keys {
+		compatible = "gpio-keys";
+		pinctrl-0 = <&button_pins>;
+		pinctrl-names = "default";
+
+		button_reset {
+			label = "reset";
+			gpios = <&tlmm 25 GPIO_ACTIVE_LOW>;
+			linux,input-type = <EV_KEY>;
+			linux,code = <KEY_RESTART>;
+			debounce-interval = <60>;
+		};
+
+		wps {
+			label = "wps";
+			linux,code = <KEY_WPS_BUTTON>;
+			gpios = <&tlmm 38 GPIO_ACTIVE_LOW>;
+			linux,input-type = <EV_KEY>;
+			debounce-interval = <60>;
+		};
+	};
+
 	leds {
 		compatible = "gpio-leds";
+		pinctrl-0 = <&leds_pins>;
+		pinctrl-names = "default";
 
 		led_status_blue: status-blue {
 			label = "blue:status";
@@ -50,50 +71,27 @@
 		};
 	};
 
-	keys {
-		compatible = "gpio-keys";
-
-		reset {
-			label = "reset";
-			linux,code = <KEY_RESTART>;
-			gpios = <&tlmm 25 GPIO_ACTIVE_LOW>;
-			linux,input-type = <1>;
-			debounce-interval = <60>;
-		};
-
-		wps {
-			label = "wps";
-			linux,code = <KEY_WPS_BUTTON>;
-			gpios = <&tlmm 38 GPIO_ACTIVE_LOW>;
-			linux,input-type = <1>;
-			debounce-interval = <60>;
-		};
-	};
-
 	reserved-memory {
-		tz_appps@4a400000 {
-			no-map;
-			reg = <0x0 0x4a400000 0x0 0x400000>;
-		};
-
 		q6_mem_regions: q6_mem_regions@4b000000 {
 			no-map;
 			reg = <0x0 0x4b000000 0x0 0x3000000>;
 		};
 	};
 };
+
 &switch {
 	status = "okay";
-	switch_mac_mode = <MAC_MODE_SGMII_PLUS>;
+
+	switch_mac_mode = <MAC_MODE_SGMII_CHANNEL0>;
+
 	qcom,port_phyinfo {
 		// MAC0 -> GE Phy -> QCA8337 Phy2
 		port@0 {
 			port_id = <1>;
 			mdiobus = <&mdio0>;
 			phy_address = <7>;
-			phy_dac = <0x10 0x10>;
-			// status = "disabled";
 		};
+
 		// MAC1 ---SGMII---> QCA8337 SerDes
 		port@1 {
 			port_id = <2>;
@@ -102,31 +100,36 @@
 		};
 	};
 };
-// MAC0 -> GE Phy
+
 &dp1 {
 	status = "okay";
 };
+
 // MAC1 ---SGMII---> QCA8337 SerDes
 &dp2 {
 	status = "okay";
 	phy-mode = "sgmii";
+
 	fixed-link {
 		speed = <1000>;
 		full-duplex;
 	};
 };
+
 &mdio0 {
 	status = "okay";
+
+	ethernet-phy@0 {
+	reg = <7>;
+	};
 };
-// IPQ5018 GE Phy -> QCA8337 Phy1
-&ge_phy {
-	status = "okay";
-};
+
 &mdio1 {
 	status = "okay";
 	pinctrl-0 = <&mdio1_pins>;
 	pinctrl-names = "default";
 	reset-gpios = <&tlmm 39 GPIO_ACTIVE_LOW>;
+
 	// QCA8337 Phy0 -> LAN3
 	qca8337_0: ethernet-phy@0 {
 		reg = <0>;
@@ -143,12 +146,7 @@
 	qca8337_3: ethernet-phy@3 {
 		reg = <3>;
 	};
-	// QCA8337 Phy2 -> IPQ5018 GE Phy
-	qca8337_4: ethernet-phy@4 {
-		reg = <4>;
-	};
 
-	// QCA8337 switch
 	switch0: ethernet-switch@17 {
 		compatible = "qca,qca8337";
 		reg = <17>;
@@ -160,48 +158,37 @@
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
-
-			switch0cpu: port@0 {
-				reg = <0>;
-				label = "cpu";
-				phy-mode = "sgmii";
-				ethernet = <&dp2>;
-				qca,sgmii-enable-pll;
-				fixed-link {
-					speed = <1000>;
-					full-duplex;
-				};
-			};
+			
 			// QCA8337 Phy1 -> LAN3
-			port@1 {
-				reg = <1>;
-				label = "lan3";
+			port@0 {
+				reg = <0>;
+				label = "wan";
 				phy-handle = <&qca8337_0>;
 				port_id = <1>;
 				phy_address = <0>;
 			};
 
 			// QCA8337 Phy2 -> LAN2
-			port@2 {
-				reg = <2>;
-				label = "lan2";
+			port@1 {
+				reg = <1>;
+				label = "lan3";
 				phy-handle = <&qca8337_1>;
 				port_id = <2>;
 				phy_address = <1>;
 			};
 			// QCA8337 Phy3 -> LAN1
-			port@3 {
-				reg = <3>;
-				label = "lan1";
+			port@2 {
+				reg = <2>;
+				label = "lan2";
 				phy-handle = <&qca8337_2>;
 				port_id = <3>;
 				phy_address = <2>;
 
 			};
 			// QCA8337 Phy4 -> WAN
-			port@4 {
-				reg = <4>;
-				label = "wan";
+			port@3 {
+				reg = <3>;
+				label = "lan1";
 				phy-handle = <&qca8337_3>;
 				port_id = <4>;
 				phy_address = <3>;
@@ -320,22 +307,24 @@
 
 &q6v5_wcss {
 	status = "okay";
+
 	memory-region = <&q6_mem_regions>;
-	firmware-name = "IPQ5018/hw1.0/q6_fw.mdt",
-					"IPQ5018/hw1.0/m3_fw.mdt",
-					"QCN6122/hw1.0/m3_fw.mdt";
+	firmware-name = "ath11k/IPQ5018/hw1.0/q6_fw.mdt",
+			"ath11k/IPQ5018/hw1.0/m3_fw.mdt",
+			"ath11k/QCN6122/hw1.0/m3_fw.mdt";
 
-
-//	boot-args =
-//			</*       type: */ 0x1 /* PCIE0 */
-//		     /*     length: */ 4
-//		     /*      PD id: */ 3
-//		     /* reset GPIO: */ 15
-//		     /*   reserved: */ 0 0>;
+	/* B3000 currently doesn't support passing bootargs */
+	/*boot-args = <					*/
+			/*	   type:	0x1  PCIE0	*/
+			/*	 length:	4		*/
+			/*	  PD id:	3		*/
+			/* reset GPIO:	15		*/
+			/*   reserved:	0 0>;		*/
 
 	// IPQ5018
 	q6_wcss_pd1: pd-1 {
-		firmware-name = "IPQ5018/hw1.0/q6_fw.mdt";
+		firmware-name = "ath11k/IPQ5018/hw1.0/q6_fw.mdt";
+
 		resets =
 			<&gcc GCC_WCSSAON_RESET>,
 			<&gcc GCC_WCSS_BCR>,
@@ -344,6 +333,7 @@
 			"wcss_aon_reset",
 			"wcss_reset",
 			"ce_reset";
+
 		clocks =
 			<&gcc GCC_WCSS_AHB_S_CLK>,
 			<&gcc GCC_WCSS_ACMT_CLK>,
@@ -353,16 +343,18 @@
 			"gcc_wcss_acmt_clk",
 			"gcc_wcss_axi_m_clk";
 
+		// qcom,halt-regs = <&tcsr_q6_block 0xa000 0xd000 0x0>;
 		interrupts-extended =
-			<&wcss_smp2p_in 8 0>,
-			<&wcss_smp2p_in 9 0>,
-			<&wcss_smp2p_in 12 0>,
-			<&wcss_smp2p_in 11 0>;
+			<&wcss_smp2p_in 8 IRQ_TYPE_NONE>,
+			<&wcss_smp2p_in 9 IRQ_TYPE_NONE>,
+			<&wcss_smp2p_in 12 IRQ_TYPE_NONE>,
+			<&wcss_smp2p_in 11 IRQ_TYPE_NONE>;
 		interrupt-names =
 			"fatal",
 			"ready",
 			"spawn-ack",
 			"stop-ack";
+
 		qcom,smem-states =
 			<&wcss_smp2p_out 8>,
 			<&wcss_smp2p_out 9>,
@@ -371,22 +363,23 @@
 			"shutdown",
 			"stop",
 			"spawn";
-		status = "okay";
 	};
 
 	// QCN6102 5G
-	q6_wcss_pd2: pd-2 {
-		firmware-name = "IPQ5018/hw1.0/q6_fw.mdt";
+	q6_wcss_pd3: pd-3 {
+		firmware-name = "ath11k/IPQ5018/hw1.0/q6_fw.mdt";
+
 		interrupts-extended =
-			<&wcss_smp2p_in 24 0>,
-			<&wcss_smp2p_in 25 0>,
-			<&wcss_smp2p_in 28 0>,
-			<&wcss_smp2p_in 27 0>;
+			<&wcss_smp2p_in 24 IRQ_TYPE_NONE>,
+			<&wcss_smp2p_in 25 IRQ_TYPE_NONE>,
+			<&wcss_smp2p_in 28 IRQ_TYPE_NONE>,
+			<&wcss_smp2p_in 27 IRQ_TYPE_NONE>;
 		interrupt-names =
 			"fatal",
 			"ready",
 			"spawn-ack",
 			"stop-ack";
+
 		qcom,smem-states =
 			<&wcss_smp2p_out 24>,
 			<&wcss_smp2p_out 25>,
@@ -395,25 +388,28 @@
 			"shutdown",
 			"stop",
 			"spawn";
-
-		status = "okay";
 	};
 };
+
 &wifi0 {
 	// IPQ5018
 	qcom,rproc = <&q6_wcss_pd1>;
 	qcom,userpd-subsys-name = "q6v5_wcss_userpd1";
-	qcom,ath11k-calibration-variant = "JDC-RE-CS-03";
-	qcom,ath11k-fw-memory-mode = <1>;
+	qcom,ath11k-calibration-variant = "JDCloud-RE-CS-03";
+	qcom,ath11k-fw-memory-mode = <2>;
 	qcom,bdf-addr = <0x4c400000>;
+
 	status = "okay";
 };
+
 &wifi1 {
-	qcom,rproc = <&q6_wcss_pd2>;
-	qcom,userpd-subsys-name = "q6v5_wcss_userpd2";
-	qcom,ath11k-calibration-variant = "JDC-RE-CS-03";
-	qcom,ath11k-fw-memory-mode = <1>;
+	// QCN6102 5G
+	qcom,rproc = <&q6_wcss_pd3>;
+	qcom,userpd-subsys-name = "q6v5_wcss_userpd3";
+	qcom,ath11k-calibration-variant = "JDCloud-RE-CS-03";
+	qcom,ath11k-fw-memory-mode = <2>;
 	qcom,bdf-addr = <0x4d100000>;
 	qcom,m3-dump-addr = <0x4df00000>;
+
 	status = "okay";
 };
