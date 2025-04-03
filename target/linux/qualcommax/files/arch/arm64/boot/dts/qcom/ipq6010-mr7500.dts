@@ -3,9 +3,9 @@
 /dts-v1/;
 
 #include "ipq6018.dtsi"
-#include "ipq6018-common.dtsi"
 #include "ipq6018-ess.dtsi"
 #include "ipq6018-nss.dtsi"
+#include "ipq6018-common.dtsi"
 #include "ipq6018-cp-cpu.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -444,7 +444,7 @@
 	dma-names = "tx", "rx";
 	status = "okay";
 	bluetooth { // doesn't work
-	compatible = "csr,8811";
+		compatible = "csr,8811";
 		enable-gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
 	};
 };

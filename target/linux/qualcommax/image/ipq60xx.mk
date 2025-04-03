@@ -54,24 +54,31 @@ define Device/glinet_gl-axt1800
 endef
 TARGET_DEVICES += glinet_gl-axt1800
 
-define Device/linksys_mr7350
+define Device/linksys_mr
 	$(call Device/FitImage)
-	$(call Device/UbiFit)
-	DEVICE_VENDOR := GL.iNet
+	DEVICE_VENDOR := Linksys
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
-	DEVICE_DTS_CONFIG := config@cp03-c1
-	SOC := ipq6000
+	KERNEL_SIZE := 8192k
 	IMAGES += factory.bin
-	IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi | linksys-image type=MR7350
-	DEVICE_PACKAGES := ipq-wifi-linksys_mr7350 kmod-leds-pca963x kmod-usb-ledtrig-usbport
+	IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi | linksys-image type=$$$$(DEVICE_MODEL)
+	DEVICE_PACKAGE := kmod-usb-ledtrig-usbport
+endef
+
+define Device/linksys_mr7350
+	$(call Device/linksys_mr)
+	DEVICE_MODEL := MR7350
+	NAND_SIZE := 256m
+	IMAGE_SIZE := 75776k
+	SOC := ipq6000
+	DEVICE_PACKAGES += ipq-wifi-linksys_mr7350 kmod-leds-pca963x
 endef
 TARGET_DEVICES += linksys_mr7350
 
 define Device/linksys_mr7500
 	$(call Device/linksys_mr)
 	DEVICE_MODEL := MR7500
-	SOC := ipq6018
+	SOC := ipq6010
 	NAND_SIZE := 512m
 	IMAGE_SIZE := 147456k
 	DEVICE_PACKAGES += ipq-wifi-linksys_mr7500 \
