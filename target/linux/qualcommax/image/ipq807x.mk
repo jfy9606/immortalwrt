@@ -108,6 +108,8 @@ define Device/cmcc_rm2-6
 	PAGESIZE := 2048
 	DEVICE_DTS_CONFIG := config@ac02
 	SOC := ipq8070
+	IMAGES += factory.bin
+	IMAGE/factory.bin := append-ubi | qsdk-ipq-factory-nand
 	DEVICE_PACKAGES := ipq-wifi-cmcc_rm2-6 kmod-hwmon-gpiofan
 endef
 TARGET_DEVICES += cmcc_rm2-6
@@ -122,6 +124,7 @@ define Device/compex_wpq873
 	DEVICE_DTS_CONFIG := config@hk09.wpq873
 	SOC := ipq8072
 	DEVICE_PACKAGES := ipq-wifi-compex_wpq873
+	IMAGE/factory.ubi := append-ubi | qsdk-ipq-factory-nand
 endef
 TARGET_DEVICES += compex_wpq873
 
@@ -148,6 +151,7 @@ define Device/edgecore_eap102
 	DEVICE_DTS_CONFIG := config@ac02
 	SOC := ipq8071
 	DEVICE_PACKAGES := ipq-wifi-edgecore_eap102
+	IMAGE/factory.ubi := append-ubi | qsdk-ipq-factory-nand
 endef
 TARGET_DEVICES += edgecore_eap102
 
@@ -314,8 +318,7 @@ define Device/netgear_wax620
 	SOC := ipq8072
 	IMAGES += ui-factory.tar
 	IMAGE/ui-factory.tar := append-ubi | qsdk-ipq-factory-nand | pad-to 4096 | wax6xx-netgear-tar
-	DEVICE_PACKAGES := kmod-spi-gpio kmod-gpio-nxp-74hc164 \
-		ipq-wifi-netgear_wax620
+	DEVICE_PACKAGES := kmod-spi-gpio kmod-gpio-nxp-74hc164 ipq-wifi-netgear_wax620
 endef
 TARGET_DEVICES += netgear_wax620
 
@@ -383,6 +386,7 @@ define Device/spectrum_sax1v1k
 	DEVICE_MODEL := SAX1V1K
 	DEVICE_DTS_CONFIG := config@rt5010w-d187-rev6
 	SOC := ipq8072
+	IMAGES := sysupgrade.bin
 	DEVICE_PACKAGES := ipq-wifi-spectrum_sax1v1k
 endef
 TARGET_DEVICES += spectrum_sax1v1k
@@ -489,6 +493,8 @@ define Device/yuncore_ax880
 	DEVICE_DTS_CONFIG := config@hk09
 	SOC := ipq8072
 	DEVICE_PACKAGES := ipq-wifi-yuncore_ax880
+	IMAGES += factory.bin
+	IMAGE/factory.bin := append-ubi | qsdk-ipq-factory-nand
 endef
 TARGET_DEVICES += yuncore_ax880
 
@@ -502,6 +508,8 @@ define Device/zbtlink_zbt-z800ax
 	DEVICE_DTS_CONFIG := config@hk09
 	SOC := ipq8072
 	DEVICE_PACKAGES := ipq-wifi-zbtlink_zbt-z800ax
+	IMAGES += factory.bin
+	IMAGE/factory.bin := append-ubi | qsdk-ipq-factory-nand
 endef
 TARGET_DEVICES += zbtlink_zbt-z800ax
 
