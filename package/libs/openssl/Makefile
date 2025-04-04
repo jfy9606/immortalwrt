@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openssl
-PKG_VERSION:=3.0.16
+PKG_VERSION:=3.4.0
 PKG_RELEASE:=1
 PKG_BUILD_FLAGS:=no-mips16 gc-sections no-lto
 
@@ -17,11 +17,13 @@ PKG_BUILD_PARALLEL:=1
 PKG_BASE:=$(subst $(space),.,$(wordlist 1,2,$(subst .,$(space),$(PKG_VERSION))))
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:= \
-	https://www.openssl.org/source/ \
-	https://www.openssl.org/source/old/$(PKG_BASE)/ \
-	https://github.com/openssl/openssl/releases/download/$(PKG_NAME)-$(PKG_VERSION)/
+	http://www.openssl.org/source/ \
+	http://www.openssl.org/source/old/$(PKG_BASE)/ \
+	https://github.com/openssl/openssl/releases/download/$(PKG_NAME)-$(PKG_VERSION)/ \
+	http://ftp.fi.muni.cz/pub/openssl/source/ \
+	http://ftp.fi.muni.cz/pub/openssl/source/old/$(PKG_BASE)/
 
-PKG_HASH:=57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86
+PKG_HASH:=e15dda82fe2fe8139dc2ac21a36d4ca01d5313c75f99f46c4e8a27709b7294bf
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -37,7 +39,6 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_OPENSSL_OPTIMIZE_SPEED \
 	CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM \
 	CONFIG_OPENSSL_SMALL_FOOTPRINT \
-	CONFIG_OPENSSL_KTLS \
 	CONFIG_OPENSSL_WITH_ARIA \
 	CONFIG_OPENSSL_WITH_ASM \
 	CONFIG_OPENSSL_WITH_ASYNC \
@@ -351,22 +352,6 @@ ifdef CONFIG_i386
   ifndef CONFIG_OPENSSL_WITH_SSE2
     OPENSSL_OPTIONS += no-sse2
   endif
-endif
-
-CONFIG_OPENSSL_SSL3 := y
-ifndef CONFIG_OPENSSL_SSL3
-  OPENSSL_OPTIONS += no-ssl3 no-ssl3-method no-unit-test no-external-tests
-  OPENSSL_OPTIONS += no-afalgeng no-aria no-asan no-async
-  OPENSSL_OPTIONS += no-autoerrinit
-  OPENSSL_OPTIONS += no-capieng no-cast no-cms no-comp no-bf
-  OPENSSL_OPTIONS += no-crypto-mdebug no-ct no-dgram no-dtls no-egd no-fuzz-afl no-fuzz-libfuzzer no-gost no-idea
-  OPENSSL_OPTIONS += no-mdc2 no-msan no-ocb no-rc2 no-rc4 no-rc5
-  OPENSSL_OPTIONS += no-sctp no-seed no-sm2 no-sm3 no-sm4 no-srp no-srtp no-weak-ssl-ciphers
-  OPENSSL_OPTIONS += no-tests no-ts no-ubsan
-endif
-
-ifdef CONFIG_OPENSSL_KTLS
-  OPENSSL_OPTIONS += enable-ktls
 endif
 
 OPENSSL_TARGET:=linux-$(call qstrip,$(CONFIG_ARCH))-openwrt

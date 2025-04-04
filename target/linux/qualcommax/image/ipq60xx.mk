@@ -54,21 +54,38 @@ define Device/glinet_gl-axt1800
 endef
 TARGET_DEVICES += glinet_gl-axt1800
 
-define Device/linksys_mr7350
+define Device/linksys_mr
 	$(call Device/FitImage)
 	DEVICE_VENDOR := Linksys
-	DEVICE_MODEL := MR7350
-	SOC := ipq6000
-	NAND_SIZE := 256m
-	KERNEL_SIZE := 8192k
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
-	IMAGE_SIZE := 75776k
+	KERNEL_SIZE := 8192k
 	IMAGES += factory.bin
-	IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi | linksys-image type=MR7350
-	DEVICE_PACKAGES := ipq-wifi-linksys_mr7350 kmod-leds-pca963x kmod-usb-ledtrig-usbport
+	IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi | linksys-image type=$$$$(DEVICE_MODEL)
+	DEVICE_PACKAGE := kmod-usb-ledtrig-usbport
+endef
+
+define Device/linksys_mr7350
+	$(call Device/linksys_mr)
+	DEVICE_MODEL := MR7350
+	NAND_SIZE := 256m
+	IMAGE_SIZE := 75776k
+	SOC := ipq6000
+	DEVICE_PACKAGES += ipq-wifi-linksys_mr7350 kmod-leds-pca963x
 endef
 TARGET_DEVICES += linksys_mr7350
+
+define Device/linksys_mr7500
+	$(call Device/linksys_mr)
+	DEVICE_MODEL := MR7500
+	SOC := ipq6010
+	NAND_SIZE := 512m
+	IMAGE_SIZE := 147456k
+	DEVICE_PACKAGES += ipq-wifi-linksys_mr7500 \
+		ath11k-firmware-qcn9074 kmod-ath11k-pci \
+		kmod-leds-pwm kmod-phy-aquantia
+endef
+TARGET_DEVICES += linksys_mr7500
 
 define Device/netgear_wax214
 	$(call Device/FitImage)
@@ -238,7 +255,7 @@ define Device/jdcloud_re-cs-02
 	KERNEL_SIZE := 6144k
 	SOC := ipq6010
 	DEVICE_DTS_CONFIG := config@cp03-c3
-	DEVICE_PACKAGES := ipq-wifi-jdcloud_re-cs-02 ath11k-firmware-qcn9074 kmod-ath11k-pci luci-app-athena-led luci-i18n-athena-led-zh-cn
+	DEVICE_PACKAGES := ipq-wifi-jdcloud_re-cs-02 ath11k-firmware-qcn9074 kmod-ath11k-pci
 	IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-rootfs | append-metadata
 endef
 TARGET_DEVICES += jdcloud_re-cs-02
