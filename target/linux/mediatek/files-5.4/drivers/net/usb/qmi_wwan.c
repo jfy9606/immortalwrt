@@ -570,7 +570,7 @@
  static int qmi_wwan_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
  {
 	 struct qmi_wwan_state *info = (void *)&dev->data;
-	 bool rawip = info->flags & QMI_WWAN_FLAG_RAWIP;
+	 bool rawip = 0;
 	 __be16 proto;
  
 	 /* This check is no longer done by usbnet */
@@ -849,6 +849,7 @@
 	 }
 	 dev->net->netdev_ops = &qmi_wwan_netdev_ops;
 	 dev->net->sysfs_groups[0] = &qmi_wwan_sysfs_attr_group;
+	 dev->rx_urb_size = 32*1024;
  err:
 	 return status;
  }
