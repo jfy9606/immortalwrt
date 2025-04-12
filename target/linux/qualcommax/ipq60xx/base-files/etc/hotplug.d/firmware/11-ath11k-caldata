@@ -40,7 +40,8 @@ case "$FIRMWARE" in
 		ath11k_set_macflag
 		ath11k_remove_regdomain
 		;;
-	tplink,eap610-outdoor)
+	tplink,eap610od|\
+	tplink,eap623od-hd-v1)
 		caldata_from_file "/tmp/factory_data/radio" 0 0x10000
 		;;
 	yuncore,fap650)
