@@ -120,6 +120,7 @@
 		#size-cells = <1>;
 		qcom,max-contexts = <64>;
 		qcom,max-context-size = <32>;
+		status = "okay";
 		ranges;
 
 		eip197_node {
@@ -128,7 +129,7 @@
 			reg = <0x39800000 0x7ffff>;
 			clocks = <&gcc GCC_NSS_CRYPTO_CLK>, <&gcc GCC_NSSNOC_CRYPTO_CLK>, <&gcc GCC_CRYPTO_PPE_CLK>;
 			clock-names = "crypto_clk", "crypto_nocclk", "crypto_ppeclk";
-			clock-frequency = /bits/ 64 <600000000 600000000 300000000>;
+			clock-frequency = /bits/ 64 <300000000 300000000 300000000>;
 			qcom,dma-mask = <0xff>;
 			qcom,transform-enabled;
 			qcom,aes128-cbc;

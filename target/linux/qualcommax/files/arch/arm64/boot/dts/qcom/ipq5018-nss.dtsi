@@ -14,7 +14,7 @@
 &soc {
 	nss-common {
 		compatible = "qcom,nss-common";
-		reg = <0x01868010 0x1000>;
+		reg = <0x01868010 0x01>;
 		reg-names = "nss-misc-reset";
 		memory-region = <&nss_region>;
 	};
@@ -78,6 +78,8 @@
 		qcom,wlan-dataplane-offload-enabled;
 		qcom,pvxlan-enabled;
 		qcom,udp-st-enabled;
+		mx-supply = <&nss_dummy_reg>;
+		npu-supply = <&nss_dummy_reg>;
 	};
 
 	nss_crypto: qcom,nss_crypto {
@@ -86,7 +88,9 @@
 		#size-cells = <1>;
 		qcom,max-contexts = <64>;
 		qcom,max-context-size = <144>;
+		status = "okay";
 		ranges;
+
 		ce5_node {
 			compatible = "qcom,ce5";
 			reg-names = "crypto_pbase", "bam_base";
@@ -114,6 +118,7 @@
 			qcom,aes256-cbc-sha256-hmac;
 			qcom,aes128-ctr-sha256-hmac;
 			qcom,aes256-ctr-sha256-hmac;
+
 			engine0 {
 				qcom,ee = <2 3>;
 			};
@@ -133,5 +138,4 @@
 		phy_addr = <0x1c>;
 		phy_access_mode = <0x00>;
 	};
-
 };
