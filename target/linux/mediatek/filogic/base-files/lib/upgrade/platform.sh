@@ -147,6 +147,7 @@ platform_do_upgrade() {
 		CI_ROOTPART="rootfs"
 		emmc_do_upgrade "$1"
 		;;
+	asus,rt-ax52|\
 	asus,rt-ax59u|\
 	asus,tuf-ax4200|\
 	asus,tuf-ax6000|\
@@ -336,6 +337,7 @@ platform_pre_upgrade() {
 	local board=$(board_name)
 
 	case "$board" in
+	asus,rt-ax52|\
 	asus,rt-ax59u|\
 	asus,tuf-ax4200|\
 	asus,tuf-ax6000|\
