@@ -41,7 +41,8 @@ case "$FIRMWARE" in
 		ath11k_remove_regdomain
 		;;
 	tplink,eap610od|\
-	tplink,eap623od-hd-v1)
+	tplink,eap623od-hd-v1|\
+	tplink,eap625od-hd-v1)
 		caldata_from_file "/tmp/factory_data/radio" 0 0x10000
 		;;
 	yuncore,fap650)
