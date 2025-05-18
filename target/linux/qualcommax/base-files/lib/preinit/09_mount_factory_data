@@ -18,7 +18,8 @@ preinit_mount_factory_data() {
 preinit_mount_factory_partitions() {
 	case $(board_name) in
 	tplink,eap610od|\
-	tplink,eap623od-hd-v1)
+	tplink,eap623od-hd-v1|\
+	tplink,eap625od-hd-v1)
 		preinit_mount_factory_data "factory_data"
 		;;
 	tplink,deco-x80-5g)
