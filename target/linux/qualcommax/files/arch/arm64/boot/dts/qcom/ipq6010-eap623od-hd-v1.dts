@@ -5,7 +5,7 @@
 #include "ipq6010-tplink.dtsi"
 
 / {
-	model = "TP-Link EAP623-Outdoor HD V1.0";
+	model = "TP-Link EAP623-Outdoor HD v1";
 	compatible = "tplink,eap623od-hd-v1", "qcom,ipq6018";
 };
 
