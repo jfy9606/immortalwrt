@@ -48,15 +48,13 @@
 
 	flash@0 {
 		compatible = "jedec,spi-nor";
+		spi-max-frequency = <50000000>;
 		#address-cells = <1>;
 		#size-cells = <1>;
 		reg = <0>;
-		spi-max-frequency = <50000000>;
 
 		partitions {
 			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
 
 			partition@0 {
 				label = "0:sbl1";
@@ -135,17 +133,13 @@
 	status = "okay";
 
 	nand@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
 		reg = <0>;
-		#address-cells = <0x01>;
-		#size-cells = <0x01>;
-		nand-ecc-strength = <0x04>;
-		nand-ecc-step-size = <0x200>;
-		nand-bus-width = <0x08>;
 
-		partition@0 {
-			label = "rootfs";
-			reg = <0x00 0x8000000>;
-		};
+		nand-ecc-strength = <4>;
+		nand-ecc-step-size = <512>;
+		nand-bus-width = <8>;
 	};
 };
 

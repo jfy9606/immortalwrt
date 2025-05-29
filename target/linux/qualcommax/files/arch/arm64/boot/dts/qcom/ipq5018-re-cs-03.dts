@@ -278,6 +278,7 @@
 
 &mdio1 {
 	status = "okay";
+
 	pinctrl-0 = <&mdio1_pins>;
 	pinctrl-names = "default";
 	reset-gpios = <&tlmm 39 GPIO_ACTIVE_LOW>;
@@ -367,6 +368,115 @@
 	};
 };
 
+&sleep_clk {
+	clock-frequency = <32000>;
+};
+&xo_board_clk {
+	clock-frequency = <24000000>;
+};
+&blsp1_uart1 {
+	status = "okay";
+
+	pinctrl-0 = <&blsp_uart0_pins>;
+	pinctrl-names = "default";
+};
+&crypto {
+	status = "okay";
+};
+&cryptobam {
+	status = "okay";
+};
+&qpic_bam {
+	status = "okay";
+};
+
+&sdhc_1 {
+	status = "okay";
+
+	pinctrl-0 = <&emmc_pins>;
+	pinctrl-names = "default";
+
+	/delete-property/ mmc-hs400-1_8v;
+	mmc-hs200-1_8v;
+	mmc-ddr-1_8v;
+};
+
+&tlmm {
+
+	mdio1_pins: mdio1-pins {
+		mdio1_mdc {
+			pins = "gpio36";
+			function = "mdc";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
+
+		mdio1_mdio {
+			pins = "gpio37";
+			function = "mdio";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
+	};
+
+	blsp_uart0_pins: blsp_uart0_pins {
+		pins =
+			"gpio20", // RX
+			"gpio21"; // TX
+		function = "blsp0_uart0";
+		drive-strength = <8>;
+		bias-disable;
+	};
+
+		emmc_pins: emmc-pins {
+		emmc_clk {
+			pins = "gpio9";
+			function = "sdc1_clk";
+			drive-strength = <8>;
+			bias-disable;
+		};
+
+		emmc_cmd {
+			pins = "gpio8";
+			function = "sdc1_cmd";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
+
+		emmc_data_0 {
+			pins = "gpio7";
+			function = "sdc10";
+			drive-strength = <0x08>;
+			bias-disable;
+		};
+
+		emmc_data_1 {
+			pins = "gpio6";
+			function = "sdc11";
+			drive-strength = <0x08>;
+			bias-disable;
+		};
+
+		emmc_data_2 {
+			pins = "gpio5";
+			function = "sdc12";
+			drive-strength = <0x08>;
+			bias-disable;
+		};
+
+		emmc_data_3 {
+			pins = "gpio4";
+			function = "sdc13";
+			drive-strength = <0x08>;
+			bias-disable;
+		};
+	};
+};
+
+&tsens {
+	status = "disabled";
+};
+
 &q6v5_wcss {
 	status = "okay";
 
@@ -385,14 +495,7 @@
 	qcom,rproc = <&q6v5_wcss>;
 	qcom,bootargs_smem = <507>;
 	memory-region = <&q6_mem_regions>, <&q6_etr_dump_regions>, <&q6_caldb_region>;
-	boot-args = <0x02 0x04 0x02 0x0f 0x00 0x00>;
-
-	//	boot-args =
-//			</*       type: */ 0x1 /* PCIE0 */
-//		     /*     length: */ 4
-//		     /*      PD id: */ 3
-//		     /* reset GPIO: */ 15
-//		     /*   reserved: */ 0 0>;
+	boot-args = <0x1 4 3 15 0 0>; /* type, length, UPD ID, reset GPIO, reserved */
 
 	// IPQ5018
 	q6_wcss_pd1: pd-1 {
