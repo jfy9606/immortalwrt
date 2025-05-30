@@ -121,6 +121,7 @@ jobs:
 
       - name: Generate and Compile Firmware for Each Configuration
         run: |
+          unset CI
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
           for config in .github/menuconfig/qualcommax/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
