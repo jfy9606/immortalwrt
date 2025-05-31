@@ -25,9 +25,7 @@ jobs:
 
   build_openwrt:
     name: Build OpenWrt Firmware
-    runs-on: ubuntu-24.04
-    env:
-      CI: false 
+    runs-on: ubuntu-24.04 
     steps:
 
       - name: Check Server Performance
