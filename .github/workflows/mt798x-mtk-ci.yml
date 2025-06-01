@@ -118,8 +118,8 @@ jobs:
 
       - name: Generate and Compile Firmware for Each Configuration
         run: |
-          unset CI
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
+          sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
           for config in .github/menuconfig/mt798x/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
