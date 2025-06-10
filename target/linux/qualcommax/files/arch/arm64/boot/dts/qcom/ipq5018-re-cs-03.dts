@@ -185,6 +185,7 @@
 		};
 	};
 
+<<<<<<< HEAD
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-0 = <&leds_pins>;
@@ -203,6 +204,17 @@
 		led_status_red: status-red {
 			label = "red:status";
 			gpio = <&tlmm 33 GPIO_ACTIVE_HIGH>;
+=======
+	reserved-memory {
+		tz_appps@4a400000 {
+			no-map;
+			reg = <0x0 0x4a400000 0x0 0x00400000>;
+		};
+
+		q6_mem_regions: q6_mem_regions@4b000000 {
+			no-map;
+			reg = <0x0 0x4b000000 0x0 0x03000000>;
+>>>>>>> ipq/main
 		};
 	};
 };
