@@ -100,6 +100,15 @@
 		enable-active-high;
 		regulator-always-on;
 	};
+
+	pwm-fan {
+		compatible = "pwm-fan";
+		pwms = <&pwm 1 20000 0>;
+		cooling-levels = <64 128 192 255>;
+		cooling-min-state = <0>;
+		cooling-max-state = <3>;
+		#cooling-cells = <2>;
+	};
 };
 
 &tlmm {
