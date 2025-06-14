@@ -10,16 +10,18 @@
 };
 
 &tlmm {
-	iot_pins: iot-state {
+	iot_pins: iot-pins {
 		recovery-pins {
 			pins = "gpio22";
 			function = "gpio";
+			drive-strength = <8>;
 			input;
 		};
 
 		reset-pins {
 			pins = "gpio21";
 			function = "gpio";
+			drive-strength = <8>;
 			bias-pull-up;
 		};
 	};
@@ -52,6 +54,8 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "0:sbl1";

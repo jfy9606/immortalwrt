@@ -11,7 +11,7 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_pw: led-pw {
+		led_pw: pw {
 			label = "pw:status";
 			gpios = <&tlmm 46 GPIO_ACTIVE_HIGH>;
 		};
@@ -55,6 +55,8 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "0:sbl1";

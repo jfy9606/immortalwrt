@@ -60,53 +60,32 @@
 		};
 	};
 
-	reg_sd_vmmc: regulator-sdcard-vmmc {
+	vcc_sd: regulator-vcc-sd {
 		compatible = "regulator-fixed";
-		regulator-name = "sdcard-vmmc";
+		regulator-name = "vcc_sd";
 		regulator-min-microvolt = <2950000>;
 		regulator-max-microvolt = <2950000>;
-
-		startup-delay-us = <200>;
-
 		gpios = <&tlmm 66 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
-
-		pinctrl-names = "default";
-		pinctrl-0 = <&sd_vmmc_en_default>;
+		regulator-always-on;
 	};
 };
 
 &tlmm {
-	gpio-reserved-ranges = <20 1>;
-
-	mdio_pins: mdio-pins {
-		mdc {
-			pins = "gpio64";
-			function = "mdc";
+	sd_pins: sd-pins {
+		data {
+			pins = "gpio62";
+			function = "sd_card";
 			drive-strength = <8>;
 			bias-pull-up;
 		};
 
-		mdio {
-			pins = "gpio65";
-			function = "mdio";
+		power {
+			pins = "gpio66";
+			function = "gpio";
 			drive-strength = <8>;
 			bias-pull-up;
 		};
-	};
-
-	sd_vmmc_en_default: sd-vmmc-en-default-state {
-		pins = "gpio66";
-		function = "gpio";
-		drive-strength = <8>;
-		bias-pull-down;
-	};
-
-	sd_pins: sd-state {
-		pins = "gpio62";
-		function = "gpio";
-		drive-strength = <8>;
-		bias-pull-up;
 	};
 };
 
@@ -130,10 +109,10 @@
 
 	pinctrl-0 = <&sd_pins>;
 	pinctrl-names = "default";
-	cd-gpios = <&tlmm 62 GPIO_ACTIVE_LOW>;
-	bus-width = <4>;
 
-	vqmmc-supply = <&reg_sd_vmmc>;
+	cd-gpios = <&tlmm 62 GPIO_ACTIVE_LOW>;
+	vqmmc-supply = <&vcc_sd>;
+	bus-width = <4>;
 };
 
 &switch {
@@ -197,6 +176,8 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "0:SBL1";
@@ -276,6 +257,8 @@
 
 				nvmem-layout {
 					compatible = "u-boot,env";
+					#address-cells = <1>;
+					#size-cells = <1>;
 
 					ethaddr: ethaddr {
 						#nvmem-cell-cells = <0>;
@@ -319,6 +302,10 @@
 &qpic_nand {
 	status = "okay";
 
+	partitions {
+		status = "disabled";
+	};
+
 	nand@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
@@ -330,6 +317,8 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "rootfs";

@@ -4,6 +4,9 @@
 
 #include "ipq5018.dtsi"
 #include "ipq5018-ess.dtsi"
+#include "ipq5018-nss.dtsi"
+#include "ipq5018-common.dtsi"
+
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/leds/common.h>
@@ -11,8 +14,6 @@
 / {
 	model = "JDCloud RE-CS-03";
 	compatible = "jdcloud,re-cs-03", "qcom,ipq5018";
-
-	interrupt-parent = <&intc>;
 
 	aliases {
 		sdhc1 = &sdhc_1;
@@ -162,6 +163,19 @@
 
 		dp2 {
 			status = "okay";
+		led_status_blue: status-blue {
+			label = "blue:status";
+			gpios = <&tlmm 31 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_status_green: status-green {
+			label = "green:status";
+			gpios = <&tlmm 32 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_status_red: status-red {
+			label = "red:status";
+			gpios = <&tlmm 33 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -185,7 +199,6 @@
 		};
 	};
 
-<<<<<<< HEAD
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-0 = <&leds_pins>;
@@ -204,17 +217,6 @@
 		led_status_red: status-red {
 			label = "red:status";
 			gpio = <&tlmm 33 GPIO_ACTIVE_HIGH>;
-=======
-	reserved-memory {
-		tz_appps@4a400000 {
-			no-map;
-			reg = <0x0 0x4a400000 0x0 0x00400000>;
-		};
-
-		q6_mem_regions: q6_mem_regions@4b000000 {
-			no-map;
-			reg = <0x0 0x4b000000 0x0 0x03000000>;
->>>>>>> ipq/main
 		};
 	};
 };
@@ -408,85 +410,97 @@
 	pinctrl-0 = <&emmc_pins>;
 	pinctrl-names = "default";
 
+	max-frequency = <192000000>;
+
 	/delete-property/ mmc-hs400-1_8v;
 	mmc-hs200-1_8v;
 	mmc-ddr-1_8v;
 };
 
-&tlmm {
+&dp1 {
+	status = "okay";
+};
 
-	mdio1_pins: mdio1-pins {
-		mdio1_mdc {
-			pins = "gpio36";
-			function = "mdc";
-			drive-strength = <8>;
-			bias-pull-up;
-		};
+&dp2 {
+	status = "okay";
 
-		mdio1_mdio {
-			pins = "gpio37";
-			function = "mdio";
-			drive-strength = <8>;
-			bias-pull-up;
-		};
-	};
-
-	blsp_uart0_pins: blsp_uart0_pins {
-		pins =
-			"gpio20", // RX
-			"gpio21"; // TX
-		function = "blsp0_uart0";
-		drive-strength = <8>;
-		bias-disable;
-	};
-
-		emmc_pins: emmc-pins {
-		emmc_clk {
-			pins = "gpio9";
-			function = "sdc1_clk";
-			drive-strength = <8>;
-			bias-disable;
-		};
-
-		emmc_cmd {
-			pins = "gpio8";
-			function = "sdc1_cmd";
-			drive-strength = <8>;
-			bias-pull-up;
-		};
-
-		emmc_data_0 {
-			pins = "gpio7";
-			function = "sdc10";
-			drive-strength = <0x08>;
-			bias-disable;
-		};
-
-		emmc_data_1 {
-			pins = "gpio6";
-			function = "sdc11";
-			drive-strength = <0x08>;
-			bias-disable;
-		};
-
-		emmc_data_2 {
-			pins = "gpio5";
-			function = "sdc12";
-			drive-strength = <0x08>;
-			bias-disable;
-		};
-
-		emmc_data_3 {
-			pins = "gpio4";
-			function = "sdc13";
-			drive-strength = <0x08>;
-			bias-disable;
-		};
+	fixed-link {
+		speed = <1000>;
+		full-duplex;
 	};
 };
 
-&tsens {
-	status = "disabled";
+&mdio1 {
+	status = "okay";
+
+	pinctrl-0 = <&mdio1_pins>;
+	pinctrl-names = "default";
+	reset-gpios = <&tlmm 39 GPIO_ACTIVE_LOW>;
+
+	qca8337_0: ethernet-phy@0 {
+		reg = <0>;
+	};
+
+	qca8337_1: ethernet-phy@1 {
+		reg = <1>;
+	};
+
+	qca8337_2: ethernet-phy@2 {
+		reg = <2>;
+	};
+
+	qca8337_3: ethernet-phy@3 {
+		reg = <3>;
+	};
+
+	switch1: ethernet-switch@17 {
+		compatible = "qca,qca8337";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <17>;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				label = "cpu";
+				phy-mode = "sgmii";
+				ethernet = <&dp2>;
+				qca,sgmii-enable-pll;
+
+				fixed-link {
+					speed = <1000>;
+					full-duplex;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				label = "lan3";
+				phy-handle = <&qca8337_0>;
+			};
+
+			port@2 {
+				reg = <2>;
+				label = "lan2";
+				phy-handle = <&qca8337_1>;
+			};
+
+			port@3 {
+				reg = <3>;
+				label = "lan1";
+				phy-handle = <&qca8337_2>;
+			};
+
+			port@4 {
+				reg = <4>;
+				label = "wan";
+				phy-handle = <&qca8337_3>;
+			};
+		};
+	};
 };
 
 &q6v5_wcss {

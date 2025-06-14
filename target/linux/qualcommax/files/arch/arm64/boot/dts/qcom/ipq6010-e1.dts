@@ -90,27 +90,28 @@
 			gpios = <&tlmm 35 GPIO_ACTIVE_HIGH>;
 		};
 	};
+
+	vcc_sd: regulator-vcc-sd {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_sd";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		gpios = <&tlmm 66 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	pwm-fan {
+		compatible = "pwm-fan";
+		pwms = <&pwm 1 20000 0>;
+		cooling-levels = <64 128 192 255>;
+		cooling-min-state = <0>;
+		cooling-max-state = <3>;
+		#cooling-cells = <2>;
+	};
 };
 
 &tlmm {
-	gpio-reserved-ranges = <20 1>;
-
-	mdio_pins: mdio-pins {
-		mdc {
-			pins = "gpio64";
-			function = "mdc";
-			drive-strength = <8>;
-			bias-pull-up;
-		};
-
-		mdio {
-			pins = "gpio65";
-			function = "mdio";
-			drive-strength = <8>;
-			bias-pull-up;
-		};
-	};
-
 	btcoex_pins: btcoex-pins {
 		mux_0 {
 			pins = "gpio51";
@@ -134,6 +135,13 @@
 		};
 	};
 
+	hsuart_pins: hsuart-pins {
+		pins = "gpio69", "gpio70", "gpio71", "gpio72";
+		function = "blsp1_uart";
+		drive-strength = <8>;
+		bias-disable;
+	};
+
 	pwm_pins: pwm-pins {
 		mux_1 {
 			pins = "gpio24";
@@ -152,6 +160,7 @@
 		mux_1 {
 			pins = "gpio2", "gpio16";
 			function = "gpio";
+			drive-strength = <8>;
 			output-low;
 			bias-disable;
 		};
@@ -159,23 +168,26 @@
 		mux_2 {
 			pins = "gpio47", "gpio53";
 			function = "gpio";
+			drive-strength = <8>;
 			input;
 			bias-disable;
 		};
 	};
 
 	sd_pins: sd-pins {
-		pins = "gpio62";
-		function = "sd_card";
-		drive-strength = <8>;
-		bias-pull-up;
-	};
+		data {
+			pins = "gpio62";
+			function = "sd_card";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
 
-	hsuart_pins: hsuart-pins {
-		pins = "gpio69", "gpio70", "gpio71", "gpio72";
-		function = "blsp1_uart";
-		drive-strength = <8>;
-		bias-disable;
+		power {
+			pins = "gpio66";
+			function = "gpio";
+			drive-strength = <8>;
+			bias-pull-up;
+		};
 	};
 };
 
@@ -196,7 +208,9 @@
 	pinctrl-names = "default";
 
 	cd-gpios = <&tlmm 62 GPIO_ACTIVE_LOW>;
+	vqmmc-supply = <&vcc_sd>;
 	bus-width = <4>;
+	mmc-ddr-1_8v;
 };
 
 &blsp1_spi1 {
@@ -211,6 +225,8 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "0:SBL1";
@@ -219,82 +235,96 @@
 
 			partition@c0000 {
 				label = "0:MIBIB";
-				reg = <0x000c0000 0x000d0000>;
+				reg = <0x000c0000 0x00010000>;
 			};
 
 			partition@d0000 {
 				label = "0:BOOTCONFIG";
-				reg = <0x000d0000 0x000f0000>;
+				reg = <0x000d0000 0x00020000>;
 			};
 
 			partition@f0000 {
 				label = "0:BOOTCONFIG1";
-				reg = <0x000f0000 0x00110000>;
+				reg = <0x000f0000 0x00020000>;
 			};
 
 			partition@110000 {
 				label = "0:QSEE";
-				reg = <0x00110000 0x002b0000>;
+				reg = <0x00110000 0x001a0000>;
 			};
 
 			partition@2b0000 {
 				label = "0:QSEE_1";
-				reg = <0x002b0000 0x00450000>;
+				reg = <0x002b0000 0x001a0000>;
 			};
 
 			partition@450000 {
 				label = "0:DEVCFG";
-				reg = <0x00450000 0x00460000>;
+				reg = <0x00450000 0x00010000>;
 			};
 
 			partition@460000 {
 				label = "0:DEVCFG_1";
-				reg = <0x00460000 0x00470000>;
+				reg = <0x00460000 0x00010000>;
 			};
 
 			partition@470000 {
 				label = "0:RPM";
-				reg = <0x00470000 0x004b0000>;
+				reg = <0x00470000 0x00040000>;
 			};
 
 			partition@4b0000 {
 				label = "0:RPM_1";
-				reg = <0x004b0000 0x004f0000>;
+				reg = <0x004b0000 0x00040000>;
 			};
 
 			partition@4f0000 {
 				label = "0:CDT";
-				reg = <0x004f0000 0x00500000>;
+				reg = <0x004f0000 0x00010000>;
 			};
 
 			partition@500000 {
 				label = "0:CDT_1";
-				reg = <0x00500000 0x00510000>;
+				reg = <0x00500000 0x00010000>;
 			};
 
 			partition@510000 {
 				label = "0:APPSBLENV";
-				reg = <0x00510000 0x00520000>;
+				reg = <0x00510000 0x00010000>;
 			};
 
 			partition@520000 {
 				label = "0:APPSBL";
-				reg = <0x00520000 0x005c0000>;
+				reg = <0x00520000 0x000a0000>;
 			};
 
 			partition@5c0000 {
 				label = "0:APPSBL_1";
-				reg = <0x005c0000 0x00660000>;
+				reg = <0x005c0000 0x000a0000>;
 			};
 
 			partition@660000 {
 				label = "0:ART";
-				reg = <0x00660000 0x006e0000>;
+				reg = <0x00660000 0x00080000>;
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					macaddr_lan: macaddr@12 {
+						reg = <0x12 0x06>;
+					};
+
+					macaddr_wan: macaddr@18 {
+						reg = <0x18 0x06>;
+					};
+				};
 			};
 
 			partition@6e0000 {
 				label = "0:ASF";
-				reg = <0x006e0000 0x00720000>;
+				reg = <0x006e0000 0x00040000>;
 			};
 		};
 	};
@@ -302,6 +332,10 @@
 
 &qpic_nand {
 	status = "okay";
+
+	partitions {
+		status = "disabled";
+	};
 
 	nand@0 {
 		#address-cells = <1>;
@@ -314,6 +348,8 @@
 
 		partitions {
 			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "rootfs";
@@ -423,24 +459,36 @@
 	status = "okay";
 	phy-handle = <&qca8075_1>;
 	label = "lan1";
+
+	nvmem-cells = <&macaddr_lan>;
+	nvmem-cell-names = "mac-address";
 };
 
 &dp3 {
 	status = "okay";
 	phy-handle = <&qca8075_2>;
 	label = "lan2";
+
+	nvmem-cells = <&macaddr_lan>;
+	nvmem-cell-names = "mac-address";
 };
 
 &dp4 {
 	status = "okay";
 	phy-handle = <&qca8075_3>;
 	label = "lan3";
+
+	nvmem-cells = <&macaddr_lan>;
+	nvmem-cell-names = "mac-address";
 };
 
 &dp5 {
 	status = "okay";
 	phy-handle = <&qca8081>;
 	label = "wan";
+
+	nvmem-cells = <&macaddr_wan>;
+	nvmem-cell-names = "mac-address";
 };
 
 &edma {
