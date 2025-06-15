@@ -16,16 +16,6 @@
 			gpios = <&tlmm 46 GPIO_ACTIVE_HIGH>;
 		};
 
-		led_2g: led-2g {
-			label = "2g:status";
-			gpios = <&tlmm 47 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_5g: led-5g {
-			label = "5g:status";
-			gpios = <&tlmm 48 GPIO_ACTIVE_HIGH>;
-		};
-
 		led_bt: led-bt {
 			label = "bt:status";
 			gpios = <&tlmm 50 GPIO_ACTIVE_HIGH>;
