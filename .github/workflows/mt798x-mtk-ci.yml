@@ -15,7 +15,7 @@ on:
       branch:
         description: "Git branch to build"
         required: true
-        default: "master-mtk"
+        default: "main-mtk"
         type: string
       
 permissions:
@@ -98,7 +98,7 @@ jobs:
         working-directory: /home/runner/work/immortalwrt/immortalwrt/workdir
         env:
           REPO_URL: "https://github.com/jfy9606/immortalwrt/"
-          REPO_BRANCH: "master-mtk"
+          REPO_BRANCH: "main-mtk"
         run: |
           df -hT $PWD
           git clone $REPO_URL -b $REPO_BRANCH openwrt
