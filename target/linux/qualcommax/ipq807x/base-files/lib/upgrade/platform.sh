@@ -135,7 +135,7 @@ platform_do_upgrade() {
 		;;
 	redmi,ax6-stock|\
 	xiaomi,ax3600-stock|\
-        xiaomi,ax9000-stock)
+	xiaomi,ax9000-stock)
 		part_num="$(fw_printenv -n flag_boot_rootfs)"
 		if [ "$part_num" -eq "1" ]; then
 			CI_UBIPART="rootfs_1"
