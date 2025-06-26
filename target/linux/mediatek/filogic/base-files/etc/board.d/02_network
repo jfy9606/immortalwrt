@@ -37,7 +37,7 @@ mediatek_setup_interfaces()
 		;;
 	huasifei,wh3000-pro|\
 	*Airpi*)
-                ucidef_set_interfaces_lan_wan "eth1 eth0" eth2
+                ucidef_set_interfaces_lan_wan "eth1.1234 eth0 eth1" eth2
                 ;;
 	asus,rt-ax52|\
 	asus,rt-ax59u|\
@@ -52,6 +52,7 @@ mediatek_setup_interfaces()
 	livinet,zr-3020|\
 	livinet,zr-3020-ubootmod|\
 	qihoo,360t7|\
+	sl,3000-emmc|\
 	routerich,ax3000|\
 	routerich,ax3000-ubootmod)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" wan
@@ -109,7 +110,7 @@ mediatek_setup_interfaces()
 	glinet,gl-xe3000|\
 	openembed,som7981|\
 	openwrt,one)
-		ucidef_set_interfaces_lan_wan eth1 eth0
+		ucidef_set_interfaces_lan_wan "eth1 eth1.1234" eth0
 		;;
 	dlink,aquila-pro-ai-m30-a1|\
 	dlink,aquila-pro-ai-m60-a1)
@@ -210,6 +211,11 @@ mediatek_setup_macs()
 		wan_mac=$label_mac
 		lan_mac=$(macaddr_add "$label_mac" 1)
 		;;
+        sl,3000-emmc)
+ 		lan_mac=$(mmc_get_mac_binary factory 0x04)		
+ 		wan_mac=$(macaddr_add "$lan_mac" -2)
+ 		label_mac=$lan_mac
+ 		;;
 	xiaomi,mi-router-ax3000t|\
 	xiaomi,mi-router-ax3000t-ubootmod|\
 	xiaomi,mi-router-wr30u-stock|\
