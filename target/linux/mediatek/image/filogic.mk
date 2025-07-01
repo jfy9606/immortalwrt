@@ -599,6 +599,27 @@ define Device/cmcc_a10-ubootmod
 endef
 TARGET_DEVICES += cmcc_a10-ubootmod
 
+define Device/cmcc_rax3000m_common
+  DEVICE_DTS_OVERLAY := mt7981b-cmcc-rax3000m-nand
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_DTC_FLAGS := --pad 4096
+  DEVICE_DTS_LOADADDR := 0x43f00000
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware kmod-usb3 \
+	automount f2fsck mkf2fs
+  KERNEL_LOADADDR := 0x44000000
+  KERNEL := kernel-bin | gzip
+  KERNEL_INITRAMFS := kernel-bin | lzma | \
+	fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd | pad-to 64k
+  KERNEL_INITRAMFS_SUFFIX := -recovery.itb
+  KERNEL_IN_UBI := 1
+  UBOOTENV_IN_UBI := 1
+  IMAGES := sysupgrade.itb
+  IMAGE_SIZE := $$(shell expr 64 + $$(CONFIG_TARGET_ROOTFS_PARTSIZE))m
+  IMAGE/sysupgrade.itb := append-kernel | \
+	fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-static-with-rootfs | \
+	pad-rootfs | append-metadata
+endef
+
 define Device/cmcc_rax3000m-emmc
   DEVICE_VENDOR := CMCC
   DEVICE_MODEL := RAX3000M (eMMC version)
@@ -617,12 +638,10 @@ define Device/cmcc_rax3000m
   DEVICE_VENDOR := CMCC
   DEVICE_MODEL := RAX3000M NAND
   DEVICE_DTS := mt7981b-cmcc-rax3000m
-  DEVICE_DTS_DIR := ../dts
-  DEVICE_PACKAGES := kmod-usb3 f2fsck mkf2fs
-  BLOCKSIZE := 128k
-  PAGESIZE := 2048
-  IMAGE_SIZE := 116736k
-  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  $(call Device/cmcc_rax3000m_common)
+  ARTIFACTS += nand-preloader.bin nand-bl31-uboot.fip
+  ARTIFACT/nand-preloader.bin := mt7981-bl2 spim-nand-ddr4
+  ARTIFACT/nand-bl31-uboot.fip := mt7981-bl31-uboot cmcc_rax3000m-nand
 endef
 TARGET_DEVICES += cmcc_rax3000m
 
@@ -630,13 +649,14 @@ define Device/cmcc_rax3000me
   DEVICE_VENDOR := CMCC
   DEVICE_MODEL := RAX3000Me
   DEVICE_DTS := mt7981b-cmcc-rax3000me
-  DEVICE_DTS_DIR := ../dts
+  $(call Device/cmcc_rax3000m_common)
   DEVICE_DTS_OVERLAY += mt7981b-cmcc-rax3000me-nousb
-  DEVICE_PACKAGES := kmod-usb3 f2fsck mkf2fs
-  BLOCKSIZE := 128k
-  PAGESIZE := 2048
-  IMAGE_SIZE := 116736k
-  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  ARTIFACTS += nand-ddr3-preloader.bin nand-ddr3-bl31-uboot.fip \
+	nand-ddr4-preloader.bin nand-ddr4-bl31-uboot.fip
+  ARTIFACT/nand-ddr3-preloader.bin := mt7981-bl2 spim-nand-ddr3
+  ARTIFACT/nand-ddr3-bl31-uboot.fip := mt7981-bl31-uboot cmcc_rax3000me-nand-ddr3
+  ARTIFACT/nand-ddr4-preloader.bin := mt7981-bl2 spim-nand-ddr4
+  ARTIFACT/nand-ddr4-bl31-uboot.fip := mt7981-bl31-uboot cmcc_rax3000me-nand-ddr4
 endef
 TARGET_DEVICES += cmcc_rax3000me
 
@@ -778,7 +798,7 @@ TARGET_DEVICES += cudy_tr3000-v1
 define Device/cudy_tr3000-v1-ubootmod
   DEVICE_VENDOR := Cudy
   DEVICE_MODEL := TR3000
-  DEVICE_VARIANT := v1 mod
+  DEVICE_VARIANT := v1 MOD
   DEVICE_DTS := mt7981b-cudy-tr3000-v1-ubootmod
   DEVICE_DTS_DIR := ../dts
   SUPPORTED_DEVICES += R47
@@ -795,8 +815,8 @@ TARGET_DEVICES += cudy_tr3000-v1-ubootmod
 define Device/cudy_tr3000-v1-256mb
   DEVICE_VENDOR := Cudy
   DEVICE_MODEL := TR3000
-  DEVICE_VARIANT := v1 256mb rom
-  DEVICE_DTS := mt7981b-cudy-tr3000-v1-ubootmod
+  DEVICE_VARIANT := v1 256mb
+  DEVICE_DTS := mt7981b-cudy-tr3000-v1-256mb
   DEVICE_DTS_DIR := ../dts
   SUPPORTED_DEVICES += R103
   UBINIZE_OPTS := -E 5
@@ -948,7 +968,7 @@ define Device/glinet_gl-mt6000
   DEVICE_DTS := mt7986a-glinet-gl-mt6000
   DEVICE_DTS_DIR := ../dts
   DEVICE_PACKAGES := kmod-usb3 kmod-mt7915e kmod-mt7986-firmware mt7986-wo-firmware \
-	automount f2fsck mkf2fs
+	automount f2fsck mkf2fs kmod-mmc
   IMAGES += factory.bin
   IMAGE/factory.bin := append-kernel | pad-to 32M | append-rootfs
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-gl-metadata
