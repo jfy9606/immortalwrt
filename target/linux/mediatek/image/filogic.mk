@@ -1713,6 +1713,20 @@ define Device/routerich_ax3000-v1
 endef
 TARGET_DEVICES += routerich_ax3000-v1
 
+define Device/yvr_x6
+  DEVICE_VENDOR := DaZoo
+  DEVICE_MODEL := yvr-x6 (ax6000)
+  DEVICE_DTS := mt7986a-yvr-x6
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7986-firmware mt7986-wo-firmware kmod-usb3 automount
+  KERNEL := kernel-bin | lzma | fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
+  BLOCKSIZE := 256k
+  PAGESIZE := 4096
+  KERNEL_IN_UBI := 1
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += yvr_x6
+
 define Device/ruijie_rg-x60-pro
   DEVICE_VENDOR := Ruijie
   DEVICE_MODEL := RG-X60 Pro
@@ -2127,3 +2141,50 @@ define Device/zyxel_nwa50ax-pro
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += zyxel_nwa50ax-pro
+
+define Device/wirelesstag_zx7981pd
+  DEVICE_VENDOR := Wireless-Tag
+  DEVICE_MODEL := ZX7981PD
+  DEVICE_DTS := mt7981b-wirelesstag-zx7981pd
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware kmod-usb3 mt7981-wo-firmware
+  DEVICE_DTS_LOADADDR := 0x44000000
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 51200k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += wirelesstag_zx7981pd
+
+define Device/wirelesstag_zx7981pd-ubootmod
+  DEVICE_VENDOR := Wireless-Tag
+  DEVICE_MODEL := ZX7981PD
+  DEVICE_VARIANT := (OpenWrt U-Boot layout)
+  DEVICE_DTS := mt7981b-wirelesstag-zx7981pd-ubootmod
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware kmod-usb3
+  KERNEL_INITRAMFS_SUFFIX := -recovery.itb
+  IMAGES := sysupgrade.itb
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_IN_UBI := 1
+  UBOOTENV_IN_UBI := 1
+  KERNEL := kernel-bin | lzma
+  KERNEL_INITRAMFS := kernel-bin | lzma | \
+        fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd
+  IMAGE/sysupgrade.itb := append-kernel | \
+        fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-static-with-rootfs | append-metadata
+  ARTIFACTS := preloader.bin bl31-uboot.fip
+  ARTIFACT/preloader.bin := mt7981-bl2 spim-nand-ddr3
+  ARTIFACT/bl31-uboot.fip := mt7981-bl31-uboot wirelesstag_zx7981pd
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+  ARTIFACTS += initramfs-factory.ubi
+  ARTIFACT/initramfs-factory.ubi := append-image-stage initramfs-recovery.itb | ubinize-kernel
+endif
+endef
+TARGET_DEVICES += wirelesstag_zx7981pd-ubootmod
