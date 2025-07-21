@@ -120,8 +120,6 @@
 	phy-mode = "internal";
 	phy-connection-type = "internal";
 	phy = <&int_2p5g_phy>;
-	nvmem-cells = <&macaddr_factory_1e001c 0>;
-	nvmem-cell-names = "mac-address";
 	status = "okay";
 };
 
@@ -308,9 +306,18 @@
 			groups = "spi0", "spi0_wp_hold";
 		};
 	};
+
+	uart0_pins: uart0-pins {
+		mux {
+			function = "uart";
+			groups =  "uart0";
+		};
+	};
 };
 
 &serial0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pins>;
 	status = "okay";
 };
 
