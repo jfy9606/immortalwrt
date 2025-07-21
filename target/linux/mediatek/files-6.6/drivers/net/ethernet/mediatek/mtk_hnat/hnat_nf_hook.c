@@ -336,24 +336,29 @@ static void gmac_ppe_fwd_enable(struct net_device *dev)
 
 void ppd_dev_setting(void)
 {
-	br_dev = __dev_get_by_name(&init_net, "br-lan");
+        br_dev = __dev_get_by_name(&init_net, "br-lan");
         atomic_set(&eth1_in_br, 0);
-		if (br_dev) {               
+                if (br_dev) {
                         struct net_device *dev;
                         struct list_head *pos;
-                	netdev_for_each_lower_dev(br_dev, dev, pos) {
-                        	if (dev->flags & IFF_UP) {
-                              		ppd_dev = __dev_get_by_name(&init_net, dev->name);
-                                	break;
+                        netdev_for_each_lower_dev(br_dev, dev, pos) {
+                                if (dev->flags & IFF_UP) {
+                                        if (strcmp(dev->name, "eth0") == 0) {
+                                        continue;
+                                        }
+                                        ppd_dev = __dev_get_by_name(&init_net, dev->name);
+                                        break;
                                 }
                         }
                 }
-	br_dev = __dev_get_by_name(&init_net, "eth0");
-	
-	if (!(br_dev->flags & IFF_UP)){
+        br_dev = __dev_get_by_name(&init_net, "eth1");
+        hnat_priv->g_ppdev = __dev_get_by_name(&init_net, "eth0");
+	if (br_dev){
+        if (br_dev->flags & IFF_UP){
                 hnat_priv->g_ppdev = __dev_get_by_name(&init_net, "eth1");
-		ppd_dev = __dev_get_by_name(&init_net, "eth1");
-		}
+                }}
+        printk("rx ppd dev is %s",hnat_priv->g_ppdev->name);
+        printk("tx ppd dev is %s",ppd_dev->name);
 }
 
 int nf_hnat_netdevice_event(struct notifier_block *unused, unsigned long event,
@@ -715,6 +720,8 @@ static inline void hnat_set_iif(const struct nf_hook_state *state,
 {
 	if (IS_WHNAT(state->in) && FROM_WED(skb)) {
 		return;
+	} else if (IS_WHNAT(state->in)) {
+		skb_hnat_iface(skb) = FOE_MAGIC_GE_LAN;
 	} else if (IS_LAN(state->in)) {
 		skb_hnat_iface(skb) = FOE_MAGIC_GE_LAN;
 	} else if (IS_PPD(state->in)) {
