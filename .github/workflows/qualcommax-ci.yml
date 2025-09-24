@@ -119,7 +119,6 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
-          sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
           for config in .github/menuconfig/qualcommax/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
