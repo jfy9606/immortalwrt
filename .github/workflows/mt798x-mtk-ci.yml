@@ -119,7 +119,7 @@ jobs:
       - name: Generate and Compile Firmware for Each Configuration
         run: |
           cd /home/runner/work/immortalwrt/immortalwrt/workdir/openwrt
-          #sed -i '/include \$(INCLUDE_DIR)\/package.mk/a TARGET_CFLAGS += -Wno-error=format-nonliteral' feeds/packages/libs/libxcrypt/Makefile
+          sed -i '/include \$(INCLUDE_DIR)\/package.mk/a TARGET_CFLAGS += -Wno-error=format-nonliteral' feeds/packages/libs/libxcrypt/Makefile
           for config in .github/menuconfig/mt798x/menuconfig-*; do
             CONFIG_NAME=$(basename $config)
             echo "======================================="
