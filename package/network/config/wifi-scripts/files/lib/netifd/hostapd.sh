@@ -922,7 +922,7 @@ hostapd_set_bss_options() {
 
 			set_default mobility_domain "$(echo "$ssid" | md5sum | head -c 4)"
 			set_default ft_over_ds 0
-			set_default reassociation_deadline 1000
+			set_default reassociation_deadline 20000
 
 			case "$auth_type" in
 				psk)
@@ -1162,9 +1162,9 @@ hostapd_set_bss_options() {
 		append bss_conf "multicast_to_unicast=$multicast_to_unicast_all" "$N"
 	fi
 	set_default proxy_arp 0
+	set_default na_mcast_to_ucast "$proxy_arp"
 	if [ "$proxy_arp" -gt 0 ]; then
 		append bss_conf "proxy_arp=$proxy_arp" "$N"
-		set_default na_mcast_to_ucast 1
 	fi
 	if [ "$na_mcast_to_ucast" -gt 0 ]; then
 		append bss_conf "na_mcast_to_ucast=$na_mcast_to_ucast" "$N"
