@@ -66,6 +66,8 @@ platform_do_upgrade() {
 	local board=$(board_name)
 
 	case "$board" in
+		netcore,n60-pro|\
+		xiaomi,redmi-router-ax6000-ubootmod|\
         qihoo,360t7)
 		CI_UBIPART="ubi"
     		CI_KERNPART="kernel"
@@ -96,7 +98,6 @@ platform_do_upgrade() {
 	nokia,ea0326gmp|\
 	openwrt,one|\
 	netcore,n60|\
-	netcore,n60-pro|\
 	routerich,ax3000-ubootmod|\
 	tplink,tl-xdr4288|\
 	tplink,tl-xdr6086|\
@@ -104,7 +105,6 @@ platform_do_upgrade() {
 	tplink,tl-xtr8488|\
 	wirelesstag,zx7981pd-ubootmod|\
 	xiaomi,mi-router-ax3000t-ubootmod|\
-	xiaomi,redmi-router-ax6000-ubootmod|\
 	xiaomi,mi-router-wr30u-ubootmod|\
 	zyxel,ex5601-t0-ubootmod)
 		fit_do_upgrade "$1"
