@@ -7,6 +7,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_SOURCE_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
+TARGET_CFLAGS += -Wno-error=format-nonliteral -Wno-error
 
 define Package/libxcrypt
 $(Package/libxcrypt/Default)
