@@ -52,8 +52,8 @@ define Device/bell_xg-040g-md
   KERNEL_LOADADDR := 0x80088000
   BLOCKSIZE := 128k
   PAGESIZE := 2048
-  KERNEL_SIZE := 6144k
-  IMAGE_SIZE := 253952k
+  KERNEL_SIZE := 10240k
+  IMAGE_SIZE := 261120k
   KERNEL_IN_UBI := 1
   UBINIZE_OPTS := -E 5 -m 2048 -p 128KiB -s 2048
   DEVICE_PACKAGES := airoha-en7581-npu-firmware kmod-phy-airoha-en8811h kmod-i2c-an7581 kmod-input-gpio-keys-polled
