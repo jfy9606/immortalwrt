@@ -65,7 +65,8 @@
 		compatible = "mediatek,eth-mac";
 		reg = <0>;
 		phy-mode = "2500base-x";
-
+        nvmem-cells = <&macaddr_factory_2a 0>;
+        nvmem-cell-names = "mac-address";
 		fixed-link {
 			speed = <2500>;
 			full-duplex;
