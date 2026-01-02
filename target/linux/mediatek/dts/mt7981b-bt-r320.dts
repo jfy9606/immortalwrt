@@ -60,7 +60,6 @@
 
 &eth {
 	status = "okay";
-
 	gmac0: mac@0 {
 		compatible = "mediatek,eth-mac";
 		reg = <0>;
@@ -73,17 +72,7 @@
 			pause;
 		};
 	};
-	
-	gmac1: mac@1 {
-		compatible = "mediatek,eth-mac";
-		reg = <1>;
-		phy-mode = "gmii";
-		phy-handle = <&int_gbe_phy>;
-		};
-	};
-
-
-
+};
 	mdio: mdio-bus {
 		#address-cells = <1>;
 		#size-cells = <0>;
