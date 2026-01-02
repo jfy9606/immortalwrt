@@ -56,7 +56,7 @@ define Device/bell_xg-040g-md
   IMAGE_SIZE := 261120k
   KERNEL_IN_UBI := 1
   UBINIZE_OPTS := -E 5 -m 2048 -p 128KiB -s 2048
-  DEVICE_PACKAGES := airoha-en7581-npu-firmware kmod-phy-airoha-en8811h kmod-i2c-an7581 kmod-input-gpio-keys-polled uboot-envtools
+  DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-i2c-an7581 kmod-input-gpio-keys-polled uboot-envtools
   IMAGES += factory.bin sysupgrade.bin
   IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
@@ -75,6 +75,6 @@ define Device/bell_xg-140g-y003
   IMAGES += factory.bin
   IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
-  DEVICE_PACKAGES := airoha-en7581-npu-firmware kmod-phy-airoha-en8811h kmod-gpio-button-hotplug kmod-i2c-an7581 uboot-envtools 
+  DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-gpio-button-hotplug kmod-i2c-an7581 uboot-envtools 
 endef
 TARGET_DEVICES += bell_xg-140g-y003

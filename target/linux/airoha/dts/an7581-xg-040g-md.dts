@@ -308,13 +308,13 @@
 	};
 
     mdio {
-        ethernet-phy@1 {
+        ethernet-phy@a {
 			status = "okay";
 			pinctrl-names = "gbe-led";
 			pinctrl-0 = <&gswp2_led0_pins>;
 
 			leds {
-				gsw-phy1-led0@0 {
+				led@0 {
 					reg = <0x00>;
 					function = LED_FUNCTION_LAN;
 					status = "okay";
@@ -323,13 +323,13 @@
 			};
         };
 
-        ethernet-phy@2 {
+        ethernet-phy@b {
 			status = "okay";
 			pinctrl-names = "gbe-led";
 			pinctrl-0 = <&gswp3_led0_pins>;
 
 			leds {
-				gsw-phy2-led0@0 {
+				led@0 {
 					reg = <0x00>;
 					function = LED_FUNCTION_LAN;
 					status = "okay";
@@ -338,13 +338,13 @@
 			};
 		};
 
-		ethernet-phy@3 {
+		ethernet-phy@c {
 			status = "okay";
 			pinctrl-names = "gbe-led";
 			pinctrl-0 = <&gswp4_led0_pins>;
 
 			leds {
-				gsw-phy3-led0@0 {
+				led@0 {
 					reg = <0x00>;
 					function = LED_FUNCTION_LAN;
 					status = "okay";
