@@ -37,7 +37,7 @@
     chosen {
         bootargs = "console=ttyS0,115200n8 loglevel=7 earlycon";
         stdout-path = "serial0:115200n8";
-        bootargs-append = " ubi.mtd=ubi,2048 rootfstype=squashfs ubi.block=0,rootfs root=/dev/ubiblock0_0 rootwait";
+        bootargs-append = " root=/dev/ubiblock0_0 rootfstype=squashfs ro console=ttyS0,115200 earlycon";
     };
 
     memory@80000000 {
@@ -152,19 +152,107 @@
 
         partition@0 {
             label = "bootloader";
-            reg = <0x0 0x80000>;
+            reg = <0x00000000 0x00080000>;
             read-only;
+
+            compatible = "fixed-partitions";
+            #address-cells = <1>;
+            #size-cells = <1>;
+
+            partition@0 {
+                label = "u-boot";
+                reg = <0x0 0x7c000>;
+            };
+
+            partition@7c000 {
+                label = "u-boot-env";
+                reg = <0x7c000 0x2000>;
+
+                // nvmem-layout {
+                //     compatible = "u-boot,env";
+                // };
+            };
         };
 
         partition@80000 {
-            label = "env";
-            reg = <0x80000 0x80000>;
+            label = "romfile";
+            reg = <0x00080000 0x00040000>;
         };
 
-        partition@100000 {
-            label = "ubi";
-            reg = <0x100000 0x0>;
+        partition@c0000 {
+            label = "nsb_master";
+			reg = <0x000c0000 0x02880000>;
+
+            compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "kernel";
+				reg = <0x0 0x880000>;
+			};
+
+			partition@880000 {
+				compatible = "linux,ubi";
+				label = "ubi";
+				reg = <0x880000 0x2000000>;
+			};
         };
+
+        partition@2940000 {
+			label = "nsb_slave";
+			reg = <0x02940000 0x02880000>;
+		};
+
+		partition@51c0000 {
+			label = "bosa";
+			reg = <0x051c0000 0x00040000>;
+		};
+
+		partition@5200000 {
+			label = "ri";
+			reg = <0x05200000 0x00040000>;
+		};
+
+		partition@5240000 {
+			label = "flag";
+			reg = <0x05240000 0x00040000>;
+		};
+
+		partition@5280000 {
+			label = "flagback";
+			reg = <0x05280000 0x00040000>;
+		};
+
+		partition@52c0000 {
+			label = "config";
+			reg = <0x052c0000 0x00a00000>;
+		};
+
+		partition@5cc0000 {
+			label = "framwork1";
+			reg = <0x05cc0000 0x01000000>;
+		};
+
+		partition@6cc0000 {
+			label = "framwork2";
+			reg = <0x06cc0000 0x01000000>;
+		};
+
+		partition@7cc0000 {
+			label = "apps";
+			reg = <0x07cc0000 0x060e0000>;
+		};
+
+		partition@dda0000 {
+			label = "oopsfs";
+			reg = <0x0dda0000 0x00400000>;
+		};
+
+		partition@e1a0000 {
+			label = "log";
+			reg = <0x0e1a0000 0x00a00000>;
+		};
     };
 };
 
@@ -266,9 +354,24 @@
 		};
 
         phy15: ethernet-phy@f {
-            compatible = "ethernet-phy-id03a2.a411", "ethernet-phy-ieee802.3-c45";
+            /* Airoha EN8811H */
+            compatible = "ethernet-phy-id03a2.a411", "ethernet-phy-ieee802.3-c22";
             reg = <15>;
-            phy-mode = "2500base-x";
+            
+            reset-gpios = <&en7581_pinctrl 31 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <2000000>;
+
+			leds {
+				#address-cells = <1>;
+				#size-cells = <0>;
+
+				led@0 {
+					reg = <0>;
+					function = LED_FUNCTION_LAN;
+					color = <LED_COLOR_ID_BLUE>;
+				};
+			};
         };
     };
 };
