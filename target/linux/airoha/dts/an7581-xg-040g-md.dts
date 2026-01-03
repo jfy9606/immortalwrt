@@ -317,6 +317,7 @@
 				led@0 {
 					reg = <0x00>;
 					function = LED_FUNCTION_LAN;
+					color = <LED_COLOR_ID_GREEN>;
 					status = "okay";
 					active-low;
 				};
@@ -332,6 +333,7 @@
 				led@0 {
 					reg = <0x00>;
 					function = LED_FUNCTION_LAN;
+					color = <LED_COLOR_ID_GREEN>;
 					status = "okay";
 					active-low;
 				};
@@ -347,7 +349,8 @@
 				led@0 {
 					reg = <0x00>;
 					function = LED_FUNCTION_LAN;
-					status = "okay";
+					color = <LED_COLOR_ID_GREEN>;
+					status = "okcolor = <LED_COLOR_ID_GREEN>;ay";
 					active-low;
 				};
 			};
