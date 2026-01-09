@@ -224,8 +224,4 @@
 
 &xhci {
 	status = "okay";
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> mtk/openwrt-24.10-6.6
