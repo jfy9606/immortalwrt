@@ -79,9 +79,11 @@ CONFIG_TARGET_mediatek_filogic=y
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cetron_ct3003-ubootmod is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_a10-stock is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_a10-ubootmod is not set
-CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-emmc=y
+# CONFIG_TARGET_mediatek_filogic_DEVICE_clx_s20p is not set
+# CONFIG_TARGET_mediatek_filogic_DEVICE_philips_hy3000 is not set
+CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-emmc-mtk=y
+# CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-nand-mtk is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m is not set
-# CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-stock is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000me is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_xr30-nand is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_xr30-stock is not set
@@ -96,6 +98,8 @@ CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-emmc=y
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cudy_tr3000-v1-256mb is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cudy_wr3000-v1 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_cudy_wr3000s-v1 is not set
+# CONFIG_TARGET_mediatek_filogic_DEVICE_cudy_wbr3000uax-v1 is not set
+# CONFIG_TARGET_mediatek_filogic_DEVICE_cudy_wbr3000uax-v1-ubootmod is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_dlink_aquila-pro-ai-m30-a1 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_dlink_aquila-pro-ai-m60-a1 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_edgecore_eap111 is not set
@@ -110,6 +114,7 @@ CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-emmc=y
 # CONFIG_TARGET_mediatek_filogic_DEVICE_h3c_magic-nx30-pro-nmbm is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_huasifei_wh3000-pro is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_Airpi is not set
+# CONFIG_TARGET_mediatek_filogic_DEVICE_airpi_ap3000m is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_huasifei_wh3000-emmc is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_imou_lc-hx3001 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_jcg_q30-pro is not set
@@ -131,6 +136,7 @@ CONFIG_TARGET_mediatek_filogic_DEVICE_cmcc_rax3000m-emmc=y
 # CONFIG_TARGET_mediatek_filogic_DEVICE_netcore_n60-pro is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_netgear_wax220 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_netis_nx31 is not set
+# CONFIG_TARGET_mediatek_filogic_DEVICE_netis_nx32u is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_nokia_ea0326gmp is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_openembed_som7981 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_openwrt_one is not set
@@ -173,7 +179,7 @@ CONFIG_HAS_SUBTARGETS=y
 CONFIG_HAS_DEVICES=y
 CONFIG_TARGET_BOARD="mediatek"
 CONFIG_TARGET_SUBTARGET="filogic"
-CONFIG_TARGET_PROFILE="DEVICE_cmcc_rax3000m-emmc"
+CONFIG_TARGET_PROFILE="DEVICE_cmcc_rax3000m-emmc-mtk"
 CONFIG_TARGET_ARCH_PACKAGES="aarch64_cortex-a53"
 CONFIG_DEFAULT_TARGET_OPTIMIZATION="-Os -pipe -mcpu=cortex-a53"
 CONFIG_CPU_TYPE="cortex-a53"
@@ -192,8 +198,10 @@ CONFIG_DEFAULT_fitblk=y
 CONFIG_DEFAULT_fstools=y
 CONFIG_DEFAULT_iwinfo=y
 CONFIG_DEFAULT_kmod-crypto-hw-safexcel=y
+CONFIG_DEFAULT_kmod-fs-btrfs=y
 CONFIG_DEFAULT_kmod-gpio-button-hotplug=y
 CONFIG_DEFAULT_kmod-inet-diag=y
+CONFIG_DEFAULT_kmod-ipt-fullconenat=y
 CONFIG_DEFAULT_kmod-ipt-nat=y
 CONFIG_DEFAULT_kmod-ipt-nat6=y
 CONFIG_DEFAULT_kmod-ipt-physdev=y
@@ -214,6 +222,7 @@ CONFIG_DEFAULT_libgcc=y
 CONFIG_DEFAULT_libustream-openssl=y
 CONFIG_DEFAULT_logd=y
 CONFIG_DEFAULT_luci-app-package-manager=y
+CONFIG_DEFAULT_luci-app-ttyd=y
 CONFIG_DEFAULT_luci-compat=y
 CONFIG_DEFAULT_luci-lib-base=y
 CONFIG_DEFAULT_luci-lib-ipkg=y
@@ -248,7 +257,6 @@ CONFIG_USES_SQUASHFS=y
 CONFIG_EMMC_SUPPORT=y
 CONFIG_NAND_SUPPORT=y
 CONFIG_ARCH_64BIT=y
-CONFIG_VIRTIO_SUPPORT=y
 CONFIG_USES_ROOTFS_PART=y
 CONFIG_aarch64=y
 CONFIG_ARCH="aarch64"
@@ -3088,6 +3096,20 @@ CONFIG_PACKAGE_eip197-mini-firmware=y
 # CONFIG_PACKAGE_mwifiex-pcie-firmware is not set
 # CONFIG_PACKAGE_mwifiex-sdio-firmware is not set
 # CONFIG_PACKAGE_mwl8k-firmware is not set
+
+#
+# NSS Firmware Version
+#
+
+#
+# Select NSS firmware version
+#
+# CONFIG_NSS_FIRMWARE_VERSION_12_5 is not set
+# CONFIG_NSS_FIRMWARE_VERSION_12_2 is not set
+# CONFIG_NSS_FIRMWARE_VERSION_12_1 is not set
+CONFIG_NSS_FIRMWARE_VERSION_11_4=y
+# end of NSS Firmware Version
+
 # CONFIG_PACKAGE_omnia-mcu-firmware is not set
 # CONFIG_PACKAGE_p54-pci-firmware is not set
 # CONFIG_PACKAGE_p54-spi-firmware is not set
@@ -3667,7 +3689,6 @@ CONFIG_PACKAGE_kmod-nft-offload=y
 CONFIG_PACKAGE_kmod-nft-socket=y
 CONFIG_PACKAGE_kmod-nft-tproxy=y
 # CONFIG_PACKAGE_kmod-nft-xfrm is not set
-CONFIG_PACKAGE_kmod-oaf=y
 # end of Netfilter Extensions
 
 #
@@ -3793,12 +3814,11 @@ CONFIG_PACKAGE_kmod-phy-aquantia=y
 # Network Support
 #
 # CONFIG_PACKAGE_kmod-9pnet is not set
-# CONFIG_PACKAGE_kmod-9pvirtio is not set
 # CONFIG_PACKAGE_kmod-appletalk is not set
 # CONFIG_PACKAGE_kmod-atm is not set
 # CONFIG_PACKAGE_kmod-ax25 is not set
 # CONFIG_PACKAGE_kmod-batman-adv is not set
-# CONFIG_PACKAGE_kmod-bonding is not set
+CONFIG_PACKAGE_kmod-bonding=y
 # CONFIG_PACKAGE_kmod-bpf-test is not set
 # CONFIG_PACKAGE_kmod-dnsresolver is not set
 # CONFIG_PACKAGE_kmod-fou is not set
@@ -3849,6 +3869,7 @@ CONFIG_PACKAGE_kmod-pppoe=y
 # CONFIG_PACKAGE_kmod-pppol2tp is not set
 CONFIG_PACKAGE_kmod-pppox=y
 # CONFIG_PACKAGE_kmod-pptp is not set
+# CONFIG_PACKAGE_kmod-qca-mcs is not set
 # CONFIG_PACKAGE_kmod-qrtr-mhi is not set
 # CONFIG_PACKAGE_kmod-qrtr-tun is not set
 # CONFIG_PACKAGE_kmod-sched is not set
@@ -8212,6 +8233,7 @@ CONFIG_PACKAGE_sing-box=y
 # CONFIG_PACKAGE_tinyproxy is not set
 # CONFIG_PACKAGE_trojan is not set
 # CONFIG_PACKAGE_trojan-go is not set
+# CONFIG_PACKAGE_trojan-plus is not set
 # CONFIG_PACKAGE_tuic-client is not set
 # CONFIG_PACKAGE_tuic-server is not set
 CONFIG_PACKAGE_uhttpd=y
@@ -8322,7 +8344,6 @@ CONFIG_PACKAGE_adguardhome=y
 # CONFIG_PACKAGE_apcupsd-cgi is not set
 # CONFIG_PACKAGE_apinger is not set
 # CONFIG_PACKAGE_apinger-rrd is not set
-CONFIG_PACKAGE_appfilter=y
 # CONFIG_PACKAGE_atlas-probe is not set
 # CONFIG_PACKAGE_atlas-sw-probe is not set
 # CONFIG_PACKAGE_atlas-sw-probe-rpc is not set
@@ -8524,8 +8545,8 @@ CONFIG_PACKAGE_odhcpd_ipv6only_ext_cer_id=0
 # CONFIG_PACKAGE_openelp is not set
 # CONFIG_PACKAGE_openlist is not set
 # CONFIG_PACKAGE_openthread-br is not set
-# CONFIG_PACKAGE_oping is not set
 # CONFIG_PACKAGE_oscam is not set
+# CONFIG_PACKAGE_oping is not set
 # CONFIG_PACKAGE_ostiary is not set
 # CONFIG_PACKAGE_pagekitec is not set
 # CONFIG_PACKAGE_pcapplusplus is not set
@@ -8622,7 +8643,6 @@ CONFIG_PACKAGE_tcping=y
 # CONFIG_PACKAGE_tor-basic is not set
 # CONFIG_PACKAGE_trafficshaper is not set
 # CONFIG_PACKAGE_travelmate is not set
-# CONFIG_PACKAGE_trojan-plus is not set
 # CONFIG_PACKAGE_tunneldigger is not set
 # CONFIG_PACKAGE_tunneldigger-broker is not set
 # CONFIG_PACKAGE_u2pnpd is not set
@@ -8712,6 +8732,8 @@ CONFIG_PACKAGE_xray-core=y
 #
 # TT Apps
 #
+CONFIG_PACKAGE_appfilter=y
+CONFIG_PACKAGE_kmod-oaf=y
 # end of TT Apps
 
 #
