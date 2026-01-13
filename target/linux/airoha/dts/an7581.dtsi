@@ -1035,7 +1035,6 @@
 					reg = <11>;
 					phy-mode = "internal";
 					status = "disabled";
-					
 					leds {
 						#address-cells = <1>;
 						#size-cells = <0>;
@@ -1057,7 +1056,6 @@
 					reg = <12>;
 					phy-mode = "internal";
 					status = "disabled";
-					
 					leds {
 						#address-cells = <1>;
 						#size-cells = <0>;
