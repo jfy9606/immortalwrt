@@ -828,7 +828,11 @@ static struct rtnl_link_stats64 *_rmnet_vnd_get_stats64(struct net_device *net, 
 		stats64 = per_cpu_ptr(dev->stats64, cpu);
 
 		do {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0)
 			start = u64_stats_fetch_begin_irq(&stats64->syncp);
+#else
+			start = u64_stats_fetch_begin(&stats64->syncp);
+#endif
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5,18,0)
 			rx_packets = stats64->rx_packets;
 			rx_bytes = stats64->rx_bytes;
@@ -840,7 +844,11 @@ static struct rtnl_link_stats64 *_rmnet_vnd_get_stats64(struct net_device *net, 
 			tx_packets = u64_stats_read(&stats64->tx_packets);
 			tx_bytes = u64_stats_read(&stats64->tx_bytes);
 #endif
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5,15,0)
 		} while (u64_stats_fetch_retry_irq(&stats64->syncp, start));
+#else
+		} while (u64_stats_fetch_retry(&stats64->syncp, start));
+#endif
 
 
 		stats->rx_packets += rx_packets;
@@ -1295,10 +1303,10 @@ static int qmap_register_device(sQmiWwanQmap * pDev, u8 offset_id)
     priv->dev = pDev->mpNetDev;
     priv->qmap_version = pDev->qmap_version;
     priv->mux_id = QUECTEL_QMAP_MUX_ID + offset_id;
-#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 17, 0)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
     memcpy (qmap_net->dev_addr, real_dev->dev_addr, ETH_ALEN);
 #else
-    eth_hw_addr_set (real_dev, qmap_net->dev_addr);
+    eth_hw_addr_set (qmap_net, real_dev->dev_addr);
 #endif
 
 #ifdef QUECTEL_BRIDGE_MODE
