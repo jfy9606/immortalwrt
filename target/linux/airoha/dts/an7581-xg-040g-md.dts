@@ -31,7 +31,7 @@
     chosen {
         bootargs = "console=ttyS0,115200n8 loglevel=7  earlycon";
         stdout-path = "serial0:115200n8";
-        bootargs-append = " ubi.mtd=rootfs,2048 rootfstype=squashfs loglevel=8 ubi.block=0,rootfs ro init=/etc/preinit";
+        bootargs-append = " ubi.mtd=ubi rootfstype=squashfs loglevel=8 ubi.block=0,rootfs ro init=/etc/preinit";
     };
 
     memory@80000000 {
@@ -153,7 +153,6 @@
             partition@100000 {
                 label = "ubi";
                 reg = <0x00100000  0x00>;
-		ubi-reserved-pebs = <100>;
 		};
      };
 };
