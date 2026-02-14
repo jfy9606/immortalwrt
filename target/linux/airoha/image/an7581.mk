@@ -46,7 +46,7 @@ TARGET_DEVICES += airoha_an7581-evb-emmc
 define Device/bell_xg-040g-md
   $(call Device/FitImageLzma)
   DEVICE_VENDOR := Nokia Bell
-  DEVICE_MODEL := Nokia Bell XG-040G-MD
+  DEVICE_MODEL := XG-040G-MD
   DEVICE_DTS_CONFIG := config@1
   KERNEL_LOADADDR := 0x80088000
   BLOCKSIZE := 128k
@@ -54,7 +54,7 @@ define Device/bell_xg-040g-md
   KERNEL_SIZE := 5120k
   IMAGE_SIZE := 261120k
   KERNEL_IN_UBI := 1
-  UBINIZE_OPTS := -s 2048
+  UBINIZE_OPTS := -s 2048 -O 2048
   DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-usb3 kmod-usb-xhci-mtk kmod-i2c-an7581 kmod-input-gpio-keys-polled
   IMAGES += factory.bin sysupgrade.bin
   IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
@@ -65,21 +65,18 @@ TARGET_DEVICES += bell_xg-040g-md
 
 define Device/bell_xg-140g-y003
   $(call Device/FitImageLzma)
-  DEVICE_VENDOR := Bell
-  DEVICE_MODEL := Bell XG-140G-Y003
+  DEVICE_VENDOR := Nokia Bell
+  DEVICE_MODEL := XG-140G-Y003
   DEVICE_DTS := an7581-xg-140g-y003
-  KERNEL_SIZE := 8704k
   BLOCKSIZE := 128k
   PAGESIZE := 2048
-  IMAGES += factory.bin
+  KERNEL_SIZE := 8704k
+  IMAGE_SIZE := 261120k
+  KERNEL_IN_UBI := 1
+  UBINIZE_OPTS := -s 2048 -O 2048
+  IMAGES += factory.bin sysupgrade.bin
   IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
-  DEVICE_PACKAGES := \
-	kmod-phy-airoha-en8811h \
-	kmod-gpio-button-hotplug \
-	kmod-usb3 \
-	kmod-usb-xhci-mtk \
-	kmod-i2c-an7581 \
-	uboot-envtools
+  DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-gpio-button-hotplug kmod-usb3 kmod-usb-xhci-mtk kmod-i2c-an7581 uboot-envtools
 endef
 TARGET_DEVICES += bell_xg-140g-y003
