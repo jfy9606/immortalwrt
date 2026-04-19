@@ -540,12 +540,6 @@ define Device/cmcc_a10-stock
   DEVICE_VENDOR := CMCC
   DEVICE_MODEL := A10
   DEVICE_VARIANT := (stock layout)
-  DEVICE_ALT0_VENDOR := SuperElectron
-  DEVICE_ALT0_MODEL := ZN-M5
-  DEVICE_ALT0_VARIANT := (stock layout)
-  DEVICE_ALT1_VENDOR := SuperElectron
-  DEVICE_ALT1_MODEL := ZN-M8
-  DEVICE_ALT1_VARIANT := (stock layout)
   DEVICE_DTS := mt7981b-cmcc-a10-stock
   DEVICE_DTS_DIR := ../dts
   SUPPORTED_DEVICES += mediatek,mt7981-spim-snand-rfb
