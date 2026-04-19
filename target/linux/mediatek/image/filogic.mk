@@ -1918,6 +1918,26 @@ endef
 TARGET_DEVICES += yvr_x6
 
 
+define Device/ruijie_rg-x60-new-107m
+  DEVICE_VENDOR := Ruijie
+  DEVICE_MODEL := RG-X60 New-107M
+  DEVICE_DTS := mt7986a-ruijie-rg-x60-new
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7986-firmware mt7986-wo-firmware
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += ruijie_rg-x60-new-107m
+
+define Device/ruijie_rg-x60-pro-107m
+  DEVICE_VENDOR := Ruijie
+  DEVICE_MODEL := RG-X60 Pro-107M
+  DEVICE_DTS := mt7986a-ruijie-rg-x60-pro
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7986-firmware mt7986-wo-firmware
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += ruijie_rg-x60-pro-107m
+
 define Device/ruijie_rg-x60-new
   DEVICE_VENDOR := Ruijie
   DEVICE_MODEL := RG-X60 New
