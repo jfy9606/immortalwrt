@@ -125,6 +125,7 @@ platform_do_upgrade() {
 	*Airpi*|\
 	cmcc,rax3000m-emmc|\
 	bt,r320|\
+	bt,rb300|\
 	philips,hy3000|\
 	sl,3000-emmc|\
 	smartrg,sdg-8612|\
@@ -250,6 +251,7 @@ platform_copy_config() {
 	jdcloud,re-cp-03|\
 	sl,3000-emmc|\
 	bt,r320|\
+	bt,rb300|\
 	smartrg,sdg-8612|\
 	smartrg,sdg-8614|\
 	smartrg,sdg-8622|\
