@@ -49,6 +49,7 @@ netis,nx32u|\
 nokia,ea0326gmp|\
 qihoo,360t7|\
 routerich,ax3000-ubootmod|\
+ruijie,rg-x60-new-ubootmod|\
 tplink,tl-xdr4288|\
 tplink,tl-xdr6086|\
 tplink,tl-xdr6088|\
@@ -97,6 +98,12 @@ konka,komi-a31)
 		ubootenv_add_nor_default
 		;;
 	esac
+	;;
+ruijie,rg-x60-new|\
+ruijie,rg-x60-new-stock|\
+ruijie,rg-x60-pro|\
+ruijie,rg-x60-pro-107m)
+	ubootenv_add_uci_config "/dev/mtd2" "0x0" "0x80000" "0x20000" "4"
 	;;
 cetron,ct3003|\
 edgecore,eap111|\
