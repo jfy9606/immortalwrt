@@ -129,6 +129,7 @@ platform_do_upgrade() {
 	bt,rb300|\
 	philips,hy3000|\
 	sl,3000-emmc|\
+	sn,r1|\
 	smartrg,sdg-8612|\
 	smartrg,sdg-8614|\
 	smartrg,sdg-8622|\
@@ -253,6 +254,7 @@ platform_copy_config() {
 	sl,3000-emmc|\
 	bt,r320|\
 	bt,rb300|\
+	sn,r1|\
 	smartrg,sdg-8612|\
 	smartrg,sdg-8614|\
 	smartrg,sdg-8622|\
